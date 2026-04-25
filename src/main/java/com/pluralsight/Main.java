@@ -63,7 +63,7 @@ public class Main {
                 """);
     }
 
-
+    /* region: Scanner methods */
     public static String readString() {
         return scanner.nextLine();
     }
@@ -75,5 +75,5 @@ public class Main {
     public static double readDouble() {
         return Double.parseDouble(scanner.nextLine());
     }
-
+    /* end region */
 }
