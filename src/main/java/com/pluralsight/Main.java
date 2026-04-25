@@ -5,20 +5,20 @@ import java.util.Scanner;
 public class Main {
     public static Scanner scanner = new Scanner(System.in);
     public static String mainMenuPrompt = """
-    =============================================================
-                   SQUATS AND SCIENCE BARBELL LLC
-    =============================================================
-                    Please select an option:
-                    
-                    Press D to Add Deposit
-                    Press P to Make a Payment
-                    Press L to Display Ledger
-                    Press X to Exit
-                    
-""";
+                =============================================================
+                               SQUATS AND SCIENCE BARBELL LLC
+                =============================================================
+                                Please select an option:
+            
+                                Press D to Add Deposit
+                                Press P to Make a Payment
+                                Press L to Display Ledger
+                                Press X to Exit
+            
+            """;
+
     static void main(String[] args) {
         mainMenu();
-        exit();
     }
 
     public static void mainMenu() {
@@ -46,7 +46,8 @@ public class Main {
                 default:
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
-        } while (!running);
+        } while (running);
+        exit();
     }
 
     public static void exit() {
@@ -62,7 +63,7 @@ public class Main {
                 """);
     }
 
-    //region: Scanner for data types will be used in the capstone
+
     public static String readString() {
         return scanner.nextLine();
     }
@@ -74,6 +75,5 @@ public class Main {
     public static double readDouble() {
         return Double.parseDouble(scanner.nextLine());
     }
-    //end region for Scanner methods
 
 }
