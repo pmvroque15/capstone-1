@@ -18,7 +18,7 @@ public class Main {
 """;
     static void main(String[] args) {
         mainMenu();
-        closing();
+        exit();
     }
 
     public static void mainMenu() {
@@ -44,12 +44,12 @@ public class Main {
                     running = false;
                     break;
                 default:
-                    System.out.println("There might be a snag. Try again");
+                    System.out.println("Wrong key! That rep doesn’t count.");
             }
-        } while (running);
+        } while (!running);
     }
 
-    public static void closing() {
+    public static void exit() {
         System.out.print("""
                    ____   __   __U _____ u\s
                 U | __")u \\ \\ / /\\| ___"|/\s
@@ -59,7 +59,7 @@ public class Main {
                  _|| \\\\_.-,//|(_  <<   >> \s
                 (__) (__)\\_) (__)(__) (__)\s
                 
-                        """);
+                """);
     }
 
     //region: Scanner for data types will be used in the capstone
