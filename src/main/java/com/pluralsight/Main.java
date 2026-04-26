@@ -4,6 +4,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -58,6 +59,7 @@ public class Main {
     public static LocalTime localDate;
     public static FileWriter fileWriter;
     public static BufferedWriter bufferedWriter;
+    public static DateTimeFormatter dateTimeFormatter;
     static void main(String[] args) {
         readFile(TRANSACTIONS_FILE);
         mainMenu();
@@ -134,13 +136,15 @@ public class Main {
 
     public static void addDeposit() {
         //todo make sure the date is the same format in the file
-        System.out.println("Enter date of deposit (YYYY-MM-DD): ");
+        System.out.println("Enter date of deposit (MM/dd/yyyy): ");
         String depositDate = readString();
-        LocalDate date = LocalDate.parse(depositDate);
+        dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate date = LocalDate.parse(depositDate, dateTimeFormatter);
         //todo make sure time format is the same as in the file HH:mm:ss
-        System.out.println("Enter time of deposit: ");
+        System.out.println("Enter time of deposit (HH:mm:ss): ");
         String depositTime = readString();
-        LocalTime time = LocalTime.parse(depositTime);
+        dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime time = LocalTime.parse(depositTime, dateTimeFormatter);
 
         System.out.println("Enter Deposit Description: ");
         String description = readString();
