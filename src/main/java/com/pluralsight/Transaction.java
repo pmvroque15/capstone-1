@@ -4,7 +4,6 @@ public class Transaction {
     private String date;
     private String time;
     private String description;
-
     private String vendor;
     private double amount;
     public Transaction(String date, String time, String description, String vendor, double amount) {
@@ -35,6 +34,6 @@ public class Transaction {
     public double getAmount() {
         return amount;
     }
-    //end region
+    //endregion
 
 }
