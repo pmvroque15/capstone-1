@@ -65,7 +65,6 @@ public class Main {
         mainMenu();
         exit();
     }
-
     public static void displayLedger() {
         System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.printf("%-15s %-15s %-30s %-30s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
@@ -116,7 +115,8 @@ public class Main {
                     System.out.println("Success!");
                     break;
                 case "P": //Make A Payment
-                    System.out.println("this is working");
+                    addPayment();
+                    System.out.println("Success!");
                     break;
                 case "L"://Display ledger
                     running = false;
@@ -130,6 +130,49 @@ public class Main {
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
         } while (running);
+    }
+
+    public static void addPayment() {
+        System.out.println("Enter date of deposit (MM/dd/yyyy): ");
+        String paymentDate = readString();
+        dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate date = LocalDate.parse(paymentDate, dateTimeFormatter);
+
+        System.out.println("Enter time of deposit (HH:mm:ss): ");
+        String paymentTime = readString();
+        dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalTime time = LocalTime.parse(paymentTime, dateTimeFormatter);
+
+        System.out.println("Enter Deposit Description: ");
+        String description = readString();
+
+        System.out.println("Enter Vendor Name: ");
+        String vendorName = readString();
+        /*
+        made a defensive code for input if the user
+        entered a negative amount, it's going to flag
+         and will keep looping until user enters negative
+        */
+        double amount = 0;
+        do {
+            System.out.println("Amount: ");
+            amount = readDouble();
+
+            if (amount >= 0) {
+                System.err.println("Invalid input! Payments must be negative.");
+            }
+        } while(amount >= 0);
+        try {
+            fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.newLine();
+            bufferedWriter.write(date + "|" + time + "|" + description + "|" + vendorName + "|" + amount);
+
+            bufferedWriter.close();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void addDeposit() {
@@ -150,8 +193,20 @@ public class Main {
         System.out.println("Enter Vendor Name: ");
         String vendorName = readString();
 
-        System.out.println("Amount: ");
-        double amount = readDouble();
+        /*
+        made a defensive code for input if the user
+        entered a positive amount, it's going to flag
+         and will keep looping until user enters a positive amount
+        */
+        double amount = 0;
+        do {
+            System.out.println("Amount: ");
+            amount = readDouble();
+
+            if (amount <= 0) {
+                System.err.println("Invalid input! Payments must be positive.");
+            }
+        } while(amount <= 0);
         try {
             fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
             bufferedWriter = new BufferedWriter(fileWriter);
