@@ -39,13 +39,13 @@ public class Main {
                                                                 =============================================================
                                                                                  Please select an option:
     
-                                                                                    Press 1 to Display Month to Date
-                                                                                    Press 2 to Display Previous Month(s)
-                                                                                    Press 3 to Display Year to Date
-                                                                                    Press 4 to Display Previous Year
-                                                                                    Press 5 to Search by inventory
-                                                                                    Press 0 to Go Back
-                                                                                    Press H to Go Back to Main Menu
+                                                                                Press 1 to Display Month to Date
+                                                                                Press 2 to Display Previous Month(s)
+                                                                                Press 3 to Display Year to Date
+                                                                                Press 4 to Display Previous Year
+                                                                                Press 5 to Search by inventory
+                                                                                Press 0 to Go Back
+                                                                                Press H to Go Back to Main Menu
 
             """;
 
@@ -86,12 +86,12 @@ public class Main {
     public static void mainMenu() {
         //A prompt that will ask the user to pick on the main menu options displayed
         System.out.println(mainMenuPrompt);
-        String input = readString();
-        input = input.toUpperCase();
 
         //Do while loop to keep the application working until boolean running = false
         boolean running = true;
         do {
+            String input = readString();
+            input = input.toUpperCase();
             switch (input) {
                 case "D": //Add Deposit
                     System.out.println("this is working");
@@ -115,14 +115,16 @@ public class Main {
 
     public static void subMenu() {
         boolean running = true;
-        System.out.println(subMenuPrompt);
-        String input = readString();
         //todo make a sub menu that has:
         // (A) Display all and it's sorted
         // (D) Display deposits
         // (P) Payments
         // (R) Reports
         do {
+            System.out.println(subMenuPrompt);
+            String input = readString();
+            input = input.toUpperCase();
+
             switch (input) {
                 case "A": //Add Deposit
                     System.out.println("this is working");
@@ -133,7 +135,9 @@ public class Main {
                 case "P": //Display ledger
                     System.out.println("this is working");
                     break;
-                case "R": //Exit
+                case "R": //Report menu
+                    running = false;
+                    reportMenu();
                     break;
                 default:
                     System.out.println("Wrong key! That rep doesn’t count.");
@@ -144,8 +148,6 @@ public class Main {
 
     public static void reportMenu() {
         boolean running = true;
-        System.out.println(subMenuPrompt);
-        String input = readString();
         //todo make a sub menu that has:
         // (1) Month to Date
         // (2) Previous Month
@@ -155,17 +157,32 @@ public class Main {
         // (0) Back to subMenu()
         // (H) Home
         do {
+            System.out.println(reportMenuPrompt);
+            String input = readString();
+            input = input.toUpperCase();
             switch (input) {
-                case "A": //Add Deposit
-                    System.out.println("this is working");
+                case "1": //Month to Date
+                    System.out.println("this is Month to Date");
                     break;
-                case "D": //Make A Payment
-                    System.out.println("this is working");
+                case "2": //Previous Month
+                    System.out.println("this is Previous Month");
                     break;
-                case "P": //Display ledger
-                    System.out.println("this is working");
+                case "3": //Year to Date
+                    System.out.println("this is Year to Date");
                     break;
-                case "R": //Exit
+                case "4": //Previous Year
+                    System.out.println("this is Previous Year");
+                    break;
+                case "5": //Search by Inventory
+                    System.out.println("this is Search by Inventory");
+                    break;
+                case "0":
+                    running = false; //Go back to subMenu()
+                    subMenu();
+                    break;
+                case "H":
+                    running = false; //Go back to mainMenu()
+                    mainMenu();
                     break;
                 default:
                     System.out.println("Wrong key! That rep doesn’t count.");
