@@ -4,10 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static final String fileName = "src/main/resources/transactions.csv";
+    public static final String TRANSACTIONS_FILE = "src/main/resources/transactions.csv";
     public static Scanner scanner = new Scanner(System.in);
     public static String mainMenuPrompt = """
                                                                 =============================================================
@@ -48,13 +49,21 @@ public class Main {
                                                                                 Press H to Go Back to Main Menu
 
             """;
+    public static ArrayList<Transaction> transactions = new ArrayList<>();
 
     static void main(String[] args) {
         mainMenu();
-//        fileReader(fileName);
     }
 
-    public static void fileReader(String fileName)  {
+    public static void displayLedger() {
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-15s %-15s %-30s %-30s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        for (Transaction t : transactions) {
+            System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+        }
+    }
+    public static void readFile(String fileName)  {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
             String line = " ";
@@ -72,7 +81,7 @@ public class Main {
                 double amount = Double.parseDouble(splitLine[4]);
 
                 Transaction transaction = new Transaction(date, time, description,vendor,amount);
-                //todo make a method to display Arraylist<> transactions
+                transactions.add(transaction);
             }
             bufferedReader.close();
         } catch (FileNotFoundException e) {
@@ -101,6 +110,8 @@ public class Main {
                     break;
                 case "L"://Display ledger
                     running = false;
+                    readFile(TRANSACTIONS_FILE);
+                    displayLedger();
                     subMenu();
                     break;
                 case "X": //Exit
@@ -143,7 +154,6 @@ public class Main {
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
         } while (running);
-        exit();
     }
 
     public static void reportMenu() {
@@ -188,7 +198,6 @@ public class Main {
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
         } while (running);
-        exit();
     }
     public static void exit() {
         System.out.print("""
