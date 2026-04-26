@@ -1,9 +1,9 @@
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -47,15 +47,19 @@ public class Main {
                                                                                 Press 2 to Display Previous Month(s)
                                                                                 Press 3 to Display Year to Date
                                                                                 Press 4 to Display Previous Year
-                                                                                Press 5 to Search by inventory
+                                                                                Press 5 to Search by Vendor
                                                                                 Press 0 to Go Back
                                                                                 Press H to Go Back to Main Menu
             
 
             """;
     public static ArrayList<Transaction> transactions = new ArrayList<>();
-
+    public static LocalTime localTime;
+    public static LocalTime localDate;
+    public static FileWriter fileWriter;
+    public static BufferedWriter bufferedWriter;
     static void main(String[] args) {
+        readFile(TRANSACTIONS_FILE);
         mainMenu();
         exit();
     }
@@ -70,15 +74,15 @@ public class Main {
     }
     public static void readFile(String fileName)  {
         try {
+            transactions.clear();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
             String line = " ";
             bufferedReader.readLine();
+
             while ((line = bufferedReader.readLine()) != null) {
+                line = line.trim(); //Defensive coding for whitespace
                 String[] splitLine = line.split("\\|");
-                line = line.trim();
-                if(line.isEmpty()){
-                    continue;
-                }
+
                 String date = splitLine[0];
                 String time = splitLine[1];
                 String description = splitLine[2];
@@ -108,14 +112,14 @@ public class Main {
             input = input.toUpperCase();
             switch (input) {
                 case "D": //Add Deposit
-                    System.out.println("this is working");
+                    addDeposit();
+                    System.out.println("Success!");
                     break;
                 case "P": //Make A Payment
                     System.out.println("this is working");
                     break;
                 case "L"://Display ledger
                     running = false;
-                    readFile(TRANSACTIONS_FILE);
                     displayLedger();
                     subMenu();
                     break;
@@ -126,6 +130,38 @@ public class Main {
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
         } while (running);
+    }
+
+    public static void addDeposit() {
+        //todo make sure the date is the same format in the file
+        System.out.println("Enter date of deposit (YYYY-MM-DD): ");
+        String depositDate = readString();
+        LocalDate date = LocalDate.parse(depositDate);
+        //todo make sure time format is the same as in the file HH:mm:ss
+        System.out.println("Enter time of deposit: ");
+        String depositTime = readString();
+        LocalTime time = LocalTime.parse(depositTime);
+
+        System.out.println("Enter Deposit Description: ");
+        String description = readString();
+
+        System.out.println("Enter Vendor Name: ");
+        String vendorName = readString();
+
+        System.out.println("Amount: ");
+        double amount = readDouble();
+
+        try {
+            fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.newLine();
+            bufferedWriter.write(date + "|" + time + "|" + description + "|" + vendorName + "|" + amount);
+
+            bufferedWriter.close();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void subMenu() {
@@ -191,12 +227,10 @@ public class Main {
                     System.out.println("this is Search by Inventory");
                     break;
                 case "0":
-                    running = false; //Go back to subMenu()
-                    subMenu();
+//                   Go back to subMenu()
                     break;
                 case "H":
                     running = false; //Go back to mainMenu()
-                    mainMenu();
                     break;
                 default:
                     System.out.println("Wrong key! That rep doesn’t count.");
