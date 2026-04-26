@@ -104,12 +104,10 @@ public class Main {
     }
 
     public static void mainMenu() {
-        //A prompt that will ask the user to pick on the main menu options displayed
-        System.out.println(mainMenuPrompt);
-
         //Do while loop to keep the application working until boolean running = false
         boolean running = true;
         do {
+            System.out.println(mainMenuPrompt);
             String input = readString();
             input = input.toUpperCase();
             switch (input) {
@@ -154,7 +152,6 @@ public class Main {
 
         System.out.println("Amount: ");
         double amount = readDouble();
-
         try {
             fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
             bufferedWriter = new BufferedWriter(fileWriter);
