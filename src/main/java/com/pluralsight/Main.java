@@ -11,6 +11,7 @@ public class Main {
     public static final String TRANSACTIONS_FILE = "src/main/resources/transactions.csv";
     public static Scanner scanner = new Scanner(System.in);
     public static String mainMenuPrompt = """
+            
                                                                 =============================================================
                                                                                SQUATS AND SCIENCE BARBELL LLC
                                                                 =============================================================
@@ -23,8 +24,9 @@ public class Main {
 
             """;
     public static String subMenuPrompt = """
+            
                                                                 =============================================================
-                                                                               SQUATS AND SCIENCE BARBELL LLC
+                                                                                         LEDGER
                                                                 =============================================================
                                                                                  Please select an option:
     
@@ -35,8 +37,9 @@ public class Main {
 
             """;
     public static String reportMenuPrompt = """
+            
                                                                 =============================================================
-                                                                               SQUATS AND SCIENCE BARBELL LLC
+                                                                                        REPORTS
                                                                 =============================================================
                                                                                  Please select an option:
     
@@ -47,12 +50,14 @@ public class Main {
                                                                                 Press 5 to Search by inventory
                                                                                 Press 0 to Go Back
                                                                                 Press H to Go Back to Main Menu
+            
 
             """;
     public static ArrayList<Transaction> transactions = new ArrayList<>();
 
     static void main(String[] args) {
         mainMenu();
+        exit();
     }
 
     public static void displayLedger() {
@@ -121,7 +126,6 @@ public class Main {
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
         } while (running);
-        exit();
     }
 
     public static void subMenu() {
