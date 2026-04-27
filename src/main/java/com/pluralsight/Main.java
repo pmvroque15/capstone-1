@@ -73,7 +73,7 @@ public class Main {
         System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.printf("%-15s %-15s %-30s %-30s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("-------------------------------------------------------------------------------------------------------------");
-        transactions.sort(Comparator.comparing(Transaction::getDate));
+        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime)); //todo ask David
         for (Transaction t : transactions) {
             System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
         }
@@ -197,11 +197,7 @@ public class Main {
 
     public static void subMenu() {
         boolean running = true;
-        //todo make a sub menu that has:
-        // (A) Display all and it's sorted
-        // (D) Display deposits
-        // (P) Payments
-        // (R) Reports
+
         do {
             System.out.println(subMenuPrompt);
             String input = readString();
@@ -218,8 +214,10 @@ public class Main {
                     displayTransactions(false);
                     break;
                 case "R": //Custom Reports
-                    running = false;
-                    reportMenu();
+                    boolean goHome = reportMenu();
+                    if(goHome) {
+                        running = false;
+                    }
                     break;
                 case "H": //back to Main Menu
                     running = false;
@@ -243,7 +241,7 @@ public class Main {
         }
     }
 
-    public static void reportMenu() {
+    public static boolean reportMenu() {
         boolean running = true;
         //todo make a sub menu that has:
         // (1) Month to Date
@@ -254,9 +252,11 @@ public class Main {
         // (0) Back to subMenu()
         // (H) Home
         do {
+
             System.out.println(reportMenuPrompt);
             String input = readString();
             input = input.toUpperCase();
+
             switch (input) {
                 case "1": //Month to Date
                     System.out.println("this is Month to Date");
@@ -274,15 +274,16 @@ public class Main {
                     System.out.println("this is Search by Inventory");
                     break;
                 case "0":
-//                   Go back to subMenu()
-                    break;
+                    //Go back to subMenu()
+                    return false;
                 case "H":
-                    running = false; //Go back to mainMenu()
-                    break;
+                    return true;
                 default:
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
         } while (running);
+
+        return false;
     }
 
     public static void exit() {
