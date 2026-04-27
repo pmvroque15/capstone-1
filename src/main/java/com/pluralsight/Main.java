@@ -62,17 +62,19 @@ public class Main {
     public static FileWriter fileWriter;
     public static BufferedWriter bufferedWriter;
     public static DateTimeFormatter dateTimeFormatter;
+    public static LocalDate today = LocalDate.now();
     static void main(String[] args) {
         readFile(TRANSACTIONS_FILE);
         mainMenu();
         exit();
     }
 
-    public static void displayLedger() {
-
+    public static void displayHeader() {
         System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.printf("%-15s %-15s %-30s %-30s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("-------------------------------------------------------------------------------------------------------------");
+    }
+    public static void displayLedger() {
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime)); //todo ask David
         for (Transaction t : transactions) {
             System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
@@ -249,7 +251,8 @@ public class Main {
 
             switch (input) {
                 case "1": //Month to Date
-                    System.out.println("this is Month to Date");
+                    displayThisMonthToDate();
+//                    System.out.println("this is Month to Date");
                     break;
                 case "2": //Previous Month
                     System.out.println("this is Previous Month");
@@ -271,6 +274,25 @@ public class Main {
                 default:
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
+    }
+
+    private static void displayThisMonthToDate() {
+        boolean found = true;
+        displayHeader();
+
+        for (Transaction t : transactions) {
+            LocalDate transactionDate = LocalDate.parse(t.getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+            if((transactionDate.getMonth() == today.getMonth()) && (transactionDate.getYear() == today.getYear())) {
+                    System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
+                            t.getDescription(), t.getVendor(), t.getAmount());
+            }
+            found = false;
+        }
+
+        if (found == false) {
+            System.out.println("No transactions available this month.");
+        }
     }
 
     public static void exit() {
