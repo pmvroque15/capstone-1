@@ -133,6 +133,7 @@ public class Main {
     }
 
     public static void addTransaction(boolean isDeposit) {
+        //used ternary condition to make one if/else condition than doing every single input.
         String type = isDeposit ? "Deposit" : "Payment";
 
         System.out.printf("Enter date of %s (MM/dd/yyyy): \n", type);
@@ -163,7 +164,7 @@ public class Main {
             bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.newLine();
             bufferedWriter.write(date + "|" + time + "|" + description + "|" + vendorName + "|" + amount);
-
+            //to update the file since we append new data to transactions.csv
             readFile(TRANSACTIONS_FILE);
             bufferedWriter.close();
         } catch (IOException e) {
@@ -173,6 +174,7 @@ public class Main {
 
     public static double readValidatedAmount(boolean isDeposit) {
         double amount;
+        //Made a do while loop to make sure the user will enter the right amount whether it is deposit or payment.
         do {
             System.out.println("Amount: ");
             amount = readDouble();
