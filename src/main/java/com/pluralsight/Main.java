@@ -2,7 +2,6 @@ package com.pluralsight;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class Main {
             """;
     public static ArrayList<Transaction> transactions = new ArrayList<>();
     public static LocalTime localTime;
-    public static LocalTime localDate;
+    public static LocalDate localDate;
     public static FileWriter fileWriter;
     public static BufferedWriter bufferedWriter;
     public static DateTimeFormatter dateTimeFormatter;
@@ -119,8 +118,6 @@ public class Main {
                     System.out.println("Success!");
                     break;
                 case "L"://Display ledger
-                    running = false;
-                    displayLedger();
                     subMenu();
                     break;
                 case "X": //Exit
@@ -132,60 +129,17 @@ public class Main {
         } while (running);
     }
 
-    public static void addPayment() {
-        System.out.println("Enter date of deposit (MM/dd/yyyy): ");
-        String paymentDate = readString();
-        dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate date = LocalDate.parse(paymentDate, dateTimeFormatter);
-
-        System.out.println("Enter time of deposit (HH:mm:ss): ");
-        String paymentTime = readString();
-        dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        LocalTime time = LocalTime.parse(paymentTime, dateTimeFormatter);
-
-        System.out.println("Enter Deposit Description: ");
-        String description = readString();
-
-        System.out.println("Enter Vendor Name: ");
-        String vendorName = readString();
-        /*
-        made a defensive code for input if the user
-        entered a negative amount, it's going to flag
-         and will keep looping until user enters negative
-        */
-        double amount = 0;
-        do {
-            System.out.println("Amount: ");
-            amount = readDouble();
-
-            if (amount >= 0) {
-                System.err.println("Invalid input! Payments must be negative.");
-            }
-        } while(amount >= 0);
-        try {
-            fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
-            bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.newLine();
-            bufferedWriter.write(date + "|" + time + "|" + description + "|" + vendorName + "|" + amount);
-
-            bufferedWriter.close();
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public static void addDeposit() {
-        //todo make sure the date is the same format in the file
+
         System.out.println("Enter date of deposit (MM/dd/yyyy): ");
         String depositDate = readString();
         dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate date = LocalDate.parse(depositDate, dateTimeFormatter);
-        //todo make sure time format is the same as in the file HH:mm:ss
+        localDate = LocalDate.parse(depositDate, dateTimeFormatter);
+
         System.out.println("Enter time of deposit (HH:mm:ss): ");
         String depositTime = readString();
         dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        LocalTime time = LocalTime.parse(depositTime, dateTimeFormatter);
+        localTime = LocalTime.parse(depositTime, dateTimeFormatter);
 
         System.out.println("Enter Deposit Description: ");
         String description = readString();
@@ -211,7 +165,50 @@ public class Main {
             fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
             bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.newLine();
-            bufferedWriter.write(date + "|" + time + "|" + description + "|" + vendorName + "|" + amount);
+            bufferedWriter.write(depositDate + "|" + depositTime + "|" + description + "|" + vendorName + "|" + amount);
+
+            bufferedWriter.close();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void addPayment() {
+        System.out.println("Enter date of deposit (MM/dd/yyyy): ");
+        String paymentDate = readString();
+        dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        localDate = LocalDate.parse(paymentDate, dateTimeFormatter);
+
+        System.out.println("Enter time of deposit (HH:mm:ss): ");
+        String paymentTime = readString();
+        dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        localTime = LocalTime.parse(paymentTime, dateTimeFormatter);
+
+        System.out.println("Enter Deposit Description: ");
+        String description = readString();
+
+        System.out.println("Enter Vendor Name: ");
+        String vendorName = readString();
+        /*
+        made a defensive code for input if the user
+        entered a negative amount, it's going to flag
+         and will keep looping until user enters negative
+        */
+        double amount = 0;
+        do {
+            System.out.println("Amount: ");
+            amount = readDouble();
+
+            if (amount >= 0) {
+                System.err.println("Invalid input! Payments must be negative.");
+            }
+        } while(amount >= 0);
+        try {
+            fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
+            bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.newLine();
+            bufferedWriter.write(paymentDate + "|" + paymentTime + "|" + description + "|" + vendorName + "|" + amount);
 
             bufferedWriter.close();
         }
@@ -221,6 +218,7 @@ public class Main {
     }
 
     public static void subMenu() {
+        displayLedger();
         boolean running = true;
         //todo make a sub menu that has:
         // (A) Display all and it's sorted
@@ -293,6 +291,7 @@ public class Main {
             }
         } while (running);
     }
+
     public static void exit() {
         System.out.print("""
                    ____   __   __U _____ u\s
@@ -305,6 +304,7 @@ public class Main {
                 
                 """);
     }
+
     /* region Scanner Methods */
     public static String readString() {
         return scanner.nextLine();
