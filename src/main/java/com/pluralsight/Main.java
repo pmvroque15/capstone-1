@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -32,9 +33,10 @@ public class Main {
                                                                                  Please select an option:
             
                                                                                 Press A to Display Ledger (Sorted)
-                                                                                Press D to Deposits
-                                                                                Press P to Payments
-                                                                                Press R to Reports
+                                                                                Press D to Display all Deposit Transactions
+                                                                                Press P to Display all Payment Transactions
+                                                                                Press R to Do a Custom Search Report
+                                                                                Press H to Go Back
             
             """;
     public static String reportMenuPrompt = """
@@ -67,9 +69,11 @@ public class Main {
     }
 
     public static void displayLedger() {
+
         System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.printf("%-15s %-15s %-30s %-30s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("-------------------------------------------------------------------------------------------------------------");
+        transactions.sort(Comparator.comparing(Transaction::getDate));
         for (Transaction t : transactions) {
             System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
         }
@@ -158,7 +162,7 @@ public class Main {
         entered a positive amount, it's going to flag
          and will keep looping until user enters a positive amount
         */
-        double amount = readValidatedAmount(true);
+        double amount = readValidatedAmount(isDeposit);
 
         try {
             fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
@@ -166,8 +170,9 @@ public class Main {
             bufferedWriter.newLine();
             bufferedWriter.write(date + "|" + time + "|" + description + "|" + vendorName + "|" + amount);
             //to update the file since we append new data to transactions.csv
-            readFile(TRANSACTIONS_FILE);
             bufferedWriter.close();
+            //Re-reads the current file
+            readFile(TRANSACTIONS_FILE);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -180,9 +185,9 @@ public class Main {
         do {
             amount = readDouble();
 
-            if (isDeposit && amount <= 0) {
-                System.err.println("Invalid input! Payments must be positive.");
-            } else if (!isDeposit && amount >= 0){
+            if (isDeposit && amount < 0) {
+                System.err.println("Invalid input! Deposit must be positive.");
+            } else if (!isDeposit && amount > 0){
                 System.err.println("Invalid input! Payments must be negative.");
             }
         } while ((isDeposit && amount <= 0) || (!isDeposit && amount >= 0));
@@ -215,6 +220,9 @@ public class Main {
                 case "R": //Custom Reports
                     running = false;
                     reportMenu();
+                    break;
+                case "H": //back to Main Menu
+                    running = false;
                     break;
                 default:
                     System.out.println("Wrong key! That rep doesn’t count.");
