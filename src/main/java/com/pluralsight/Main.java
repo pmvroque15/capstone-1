@@ -75,6 +75,7 @@ public class Main {
         System.out.println("-------------------------------------------------------------------------------------------------------------");
     }
     public static void displayLedger() {
+        displayHeader();
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime)); //todo ask David
         for (Transaction t : transactions) {
             System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
@@ -226,9 +227,7 @@ public class Main {
     }
 
     public static void displayTransactions(boolean isDeposit) {
-        System.out.println("-------------------------------------------------------------------------------------------------------------");
-        System.out.printf("%-15s %-15s %-30s %-30s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
-        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        displayHeader();
         for (Transaction t : transactions) {
             if (!isDeposit && t.getAmount() < 0) {
                 System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
@@ -240,7 +239,6 @@ public class Main {
 
     public static void reportMenu() {
         //todo make a sub menu that has:
-        // (1) Month to Date
         // (2) Previous Month
         // (3) Year to Date
         // (4) Previous Year
@@ -252,10 +250,9 @@ public class Main {
             switch (input) {
                 case "1": //Month to Date
                     displayThisMonthToDate();
-//                    System.out.println("this is Month to Date");
                     break;
                 case "2": //Previous Month
-                    System.out.println("this is Previous Month");
+                    displayPreviousMonth();
                     break;
                 case "3": //Year to Date
                     System.out.println("this is Year to Date");
@@ -276,7 +273,26 @@ public class Main {
             }
     }
 
-    private static void displayThisMonthToDate() {
+    public static void displayPreviousMonth() {
+        boolean found = true;
+        displayHeader();
+
+        if (found) {
+            for (Transaction t : transactions) {
+                LocalDate transactionDate = LocalDate.parse(t.getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+                if (transactionDate.getMonth() == today.getMonth().minus(1)) {
+                    System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
+                            t.getDescription(), t.getVendor(), t.getAmount());
+                }
+                found = false;
+            }
+        } else if (!found) {
+            System.out.println("No transactions available last month.");
+        }
+    }
+
+    public static void displayThisMonthToDate() {
         boolean found = true;
         displayHeader();
 
