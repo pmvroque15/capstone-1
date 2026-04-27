@@ -16,12 +16,12 @@ public class Main {
                                                                                SQUATS AND SCIENCE BARBELL LLC
                                                                 =============================================================
                                                                                 Please select an option:
-
+            
                                                                                 Press D to Add Deposit
                                                                                 Press P to Make a Payment
                                                                                 Press L to Display Ledger
                                                                                 Press X to Exit
-
+            
             """;
     public static String subMenuPrompt = """
             
@@ -29,12 +29,12 @@ public class Main {
                                                                                          LEDGER
                                                                 =============================================================
                                                                                  Please select an option:
-    
+            
                                                                                 Press A to Display Ledger (Sorted)
                                                                                 Press D to Deposits
                                                                                 Press P to Payments
                                                                                 Press R to Reports
-
+            
             """;
     public static String reportMenuPrompt = """
             
@@ -42,7 +42,7 @@ public class Main {
                                                                                         REPORTS
                                                                 =============================================================
                                                                                  Please select an option:
-    
+            
                                                                                 Press 1 to Display Month to Date
                                                                                 Press 2 to Display Previous Month(s)
                                                                                 Press 3 to Display Year to Date
@@ -51,7 +51,7 @@ public class Main {
                                                                                 Press 0 to Go Back
                                                                                 Press H to Go Back to Main Menu
             
-
+            
             """;
     public static ArrayList<Transaction> transactions = new ArrayList<>();
     public static LocalTime localTime;
@@ -59,11 +59,13 @@ public class Main {
     public static FileWriter fileWriter;
     public static BufferedWriter bufferedWriter;
     public static DateTimeFormatter dateTimeFormatter;
+
     static void main(String[] args) {
         readFile(TRANSACTIONS_FILE);
         mainMenu();
         exit();
     }
+
     public static void displayLedger() {
         System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.printf("%-15s %-15s %-30s %-30s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
@@ -72,7 +74,8 @@ public class Main {
             System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
         }
     }
-    public static void readFile(String fileName)  {
+
+    public static void readFile(String fileName) {
         try {
             transactions.clear();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
@@ -89,7 +92,7 @@ public class Main {
                 String vendor = splitLine[3];
                 double amount = Double.parseDouble(splitLine[4]);
 
-                Transaction transaction = new Transaction(date, time, description,vendor,amount);
+                Transaction transaction = new Transaction(date, time, description, vendor, amount);
                 transactions.add(transaction);
             }
             bufferedReader.close();
@@ -110,11 +113,11 @@ public class Main {
             input = input.toUpperCase();
             switch (input) {
                 case "D": //Add Deposit
-                    addDeposit();
+                    addTransaction(true);
                     System.out.println("Success!");
                     break;
                 case "P": //Make A Payment
-                    addPayment();
+                    addTransaction(false);
                     System.out.println("Success!");
                     break;
                 case "L"://Display ledger
@@ -129,19 +132,20 @@ public class Main {
         } while (running);
     }
 
-    public static void addDeposit() {
+    public static void addTransaction(boolean isDeposit) {
+        String type = isDeposit ? "Deposit" : "Payment";
 
-        System.out.println("Enter date of deposit (MM/dd/yyyy): ");
-        String depositDate = readString();
+        System.out.printf("Enter date of %s (MM/dd/yyyy): \n", type);
+        String date = readString();
         dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        localDate = LocalDate.parse(depositDate, dateTimeFormatter);
+        localDate = LocalDate.parse(date, dateTimeFormatter);
 
-        System.out.println("Enter time of deposit (HH:mm:ss): ");
-        String depositTime = readString();
+        System.out.printf("Enter time of %s (HH:mm:ss): \n", type);
+        String time = readString();
         dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        localTime = LocalTime.parse(depositTime, dateTimeFormatter);
+        localTime = LocalTime.parse(time, dateTimeFormatter);
 
-        System.out.println("Enter Deposit Description: ");
+        System.out.printf("Enter %s Description: \n", type);
         String description = readString();
 
         System.out.println("Enter Vendor Name: ");
@@ -160,62 +164,108 @@ public class Main {
             if (amount <= 0) {
                 System.err.println("Invalid input! Payments must be positive.");
             }
-        } while(amount <= 0);
+        } while (amount <= 0);
+
         try {
             fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
             bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.newLine();
-            bufferedWriter.write(depositDate + "|" + depositTime + "|" + description + "|" + vendorName + "|" + amount);
+            bufferedWriter.write(date + "|" + time + "|" + description + "|" + vendorName + "|" + amount);
 
+            readFile(TRANSACTIONS_FILE);
             bufferedWriter.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void addPayment() {
-        System.out.println("Enter date of deposit (MM/dd/yyyy): ");
-        String paymentDate = readString();
-        dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        localDate = LocalDate.parse(paymentDate, dateTimeFormatter);
 
-        System.out.println("Enter time of deposit (HH:mm:ss): ");
-        String paymentTime = readString();
-        dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        localTime = LocalTime.parse(paymentTime, dateTimeFormatter);
+//    public static void addDeposit() {
+//
+//        System.out.println("Enter date of deposit (MM/dd/yyyy): ");
+//        String depositDate = readString();
+//        dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+//        localDate = LocalDate.parse(depositDate, dateTimeFormatter);
+//
+//        System.out.println("Enter time of deposit (HH:mm:ss): ");
+//        String depositTime = readString();
+//        dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+//        localTime = LocalTime.parse(depositTime, dateTimeFormatter);
+//
+//        System.out.println("Enter Deposit Description: ");
+//        String description = readString();
+//
+//        System.out.println("Enter Vendor Name: ");
+//        String vendorName = readString();
+//
+//        /*
+//        made a defensive code for input if the user
+//        entered a positive amount, it's going to flag
+//         and will keep looping until user enters a positive amount
+//        */
+//        double amount = 0;
+//        do {
+//            System.out.println("Amount: ");
+//            amount = readDouble();
+//
+//            if (amount <= 0) {
+//                System.err.println("Invalid input! Payments must be positive.");
+//            }
+//        } while(amount <= 0);
+//        try {
+//            fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
+//            bufferedWriter = new BufferedWriter(fileWriter);
+//            bufferedWriter.newLine();
+//            bufferedWriter.write(depositDate + "|" + depositTime + "|" + description + "|" + vendorName + "|" + amount);
+//
+//            bufferedWriter.close();
+//        }
+//        catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
-        System.out.println("Enter Deposit Description: ");
-        String description = readString();
-
-        System.out.println("Enter Vendor Name: ");
-        String vendorName = readString();
-        /*
-        made a defensive code for input if the user
-        entered a negative amount, it's going to flag
-         and will keep looping until user enters negative
-        */
-        double amount = 0;
-        do {
-            System.out.println("Amount: ");
-            amount = readDouble();
-
-            if (amount >= 0) {
-                System.err.println("Invalid input! Payments must be negative.");
-            }
-        } while(amount >= 0);
-        try {
-            fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
-            bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.newLine();
-            bufferedWriter.write(paymentDate + "|" + paymentTime + "|" + description + "|" + vendorName + "|" + amount);
-
-            bufferedWriter.close();
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public static void addPayment() {
+//        System.out.println("Enter date of deposit (MM/dd/yyyy): ");
+//        String paymentDate = readString();
+//        dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+//        localDate = LocalDate.parse(paymentDate, dateTimeFormatter);
+//
+//        System.out.println("Enter time of deposit (HH:mm:ss): ");
+//        String paymentTime = readString();
+//        dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+//        localTime = LocalTime.parse(paymentTime, dateTimeFormatter);
+//
+//        System.out.println("Enter Deposit Description: ");
+//        String description = readString();
+//
+//        System.out.println("Enter Vendor Name: ");
+//        String vendorName = readString();
+//        /*
+//        made a defensive code for input if the user
+//        entered a negative amount, it's going to flag
+//         and will keep looping until user enters negative
+//        */
+//        double amount = 0;
+//        do {
+//            System.out.println("Amount: ");
+//            amount = readDouble();
+//
+//            if (amount >= 0) {
+//                System.err.println("Invalid input! Payments must be negative.");
+//            }
+//        } while(amount >= 0);
+//        try {
+//            bufferedWriter = new BufferedWriter(new FileWriter(TRANSACTIONS_FILE, true));
+//            bufferedWriter.newLine();
+//            bufferedWriter.write(paymentDate + "|" + paymentTime + "|" + description + "|" + vendorName + "|" + amount);
+//
+//            bufferedWriter.close();
+//        }
+//        catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public static void subMenu() {
         displayLedger();
