@@ -111,7 +111,7 @@ public class Main {
 
     public static void mainMenu() {
         //Do while loop to keep the application working until boolean running = false
-        boolean running = true;
+        boolean isRunning = true;
         do {
             System.out.println(mainMenuPrompt);
             String input = readString();
@@ -129,12 +129,12 @@ public class Main {
                     subMenu();
                     break;
                 case "X": //Exit
-                    running = false;
+                    isRunning = false;
                     break;
                 default:
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
-        } while (running);
+        } while (isRunning);
     }
 
     public static void addTransaction(boolean isDeposit) {
@@ -196,13 +196,11 @@ public class Main {
     }
 
     public static void subMenu() {
-        boolean running = true;
-
+            boolean isRunning = true;
         do {
             System.out.println(subMenuPrompt);
             String input = readString();
             input = input.toUpperCase();
-
             switch (input) {
                 case "A": //Display Ledger (sorted)
                     displayLedger();
@@ -214,18 +212,15 @@ public class Main {
                     displayTransactions(false);
                     break;
                 case "R": //Custom Reports
-                    boolean goHome = reportMenu();
-                    if(goHome) {
-                        running = false;
-                    }
+                    reportMenu();
                     break;
-                case "H": //back to Main Menu
-                    running = false;
+                case "H":
+                    isRunning = false; //back to Main Menu
                     break;
                 default:
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
-        } while (running);
+        } while (isRunning);
     }
 
     public static void displayTransactions(boolean isDeposit) {
@@ -241,18 +236,13 @@ public class Main {
         }
     }
 
-    public static boolean reportMenu() {
-        boolean running = true;
+    public static void reportMenu() {
         //todo make a sub menu that has:
         // (1) Month to Date
         // (2) Previous Month
         // (3) Year to Date
         // (4) Previous Year
         // (5) Search by inventory
-        // (0) Back to subMenu()
-        // (H) Home
-        do {
-
             System.out.println(reportMenuPrompt);
             String input = readString();
             input = input.toUpperCase();
@@ -275,15 +265,12 @@ public class Main {
                     break;
                 case "0":
                     //Go back to subMenu()
-                    return false;
-                case "H":
-                    return true;
+                    break;
+                case "H": //Go back to Main Menu
+                    break;
                 default:
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
-        } while (running);
-
-        return false;
     }
 
     public static void exit() {
