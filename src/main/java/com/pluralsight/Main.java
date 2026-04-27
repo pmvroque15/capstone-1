@@ -157,7 +157,7 @@ public class Main {
         entered a positive amount, it's going to flag
          and will keep looping until user enters a positive amount
         */
-        double amount = readValidatedAmount(isDeposit);
+        double amount = readValidatedAmount(true);
 
         try {
             fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
@@ -175,8 +175,8 @@ public class Main {
     public static double readValidatedAmount(boolean isDeposit) {
         double amount;
         //Made a do while loop to make sure the user will enter the right amount whether it is deposit or payment.
-        do {
             System.out.println("Amount: ");
+        do {
             amount = readDouble();
 
             if (isDeposit && amount <= 0) {
@@ -184,7 +184,7 @@ public class Main {
             } else if (!isDeposit && amount >= 0){
                 System.err.println("Invalid input! Payments must be negative.");
             }
-        } while ((!isDeposit && amount <= 0) || (isDeposit && amount >= 0));
+        } while ((isDeposit && amount <= 0) || (!isDeposit && amount >= 0));
 
         return amount;
     }
