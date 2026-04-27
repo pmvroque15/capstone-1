@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
@@ -59,7 +60,6 @@ public class Main {
     public static FileWriter fileWriter;
     public static BufferedWriter bufferedWriter;
     public static DateTimeFormatter dateTimeFormatter;
-
     static void main(String[] args) {
         readFile(TRANSACTIONS_FILE);
         mainMenu();
@@ -93,6 +93,7 @@ public class Main {
                 double amount = Double.parseDouble(splitLine[4]);
 
                 Transaction transaction = new Transaction(date, time, description, vendor, amount);
+                //ArrayLists
                 transactions.add(transaction);
             }
             bufferedReader.close();
@@ -120,7 +121,7 @@ public class Main {
                     addTransaction(false);
                     System.out.println("Success!");
                     break;
-                case "L"://Display ledger
+                case "L"://Ledger menu
                     subMenu();
                     break;
                 case "X": //Exit
@@ -190,7 +191,6 @@ public class Main {
     }
 
     public static void subMenu() {
-        displayLedger();
         boolean running = true;
         //todo make a sub menu that has:
         // (A) Display all and it's sorted
@@ -203,16 +203,16 @@ public class Main {
             input = input.toUpperCase();
 
             switch (input) {
-                case "A": //Add Deposit
-                    System.out.println("this is working");
+                case "A": //Display Ledger (sorted)
+                    displayLedger();
                     break;
-                case "D": //Make A Payment
-                    System.out.println("this is working");
+                case "D": //Display Deposit Transaction
+                    displayTransactions(true);
                     break;
-                case "P": //Display ledger
-                    System.out.println("this is working");
+                case "P": //Display Payments Transactions
+                    displayTransactions(false);
                     break;
-                case "R": //Report menu
+                case "R": //Custom Reports
                     running = false;
                     reportMenu();
                     break;
@@ -220,6 +220,19 @@ public class Main {
                     System.out.println("Wrong key! That rep doesn’t count.");
             }
         } while (running);
+    }
+
+    public static void displayTransactions(boolean isDeposit) {
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-15s %-15s %-30s %-30s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        for (Transaction t : transactions) {
+            if (!isDeposit && t.getAmount() < 0) {
+                System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+            } else if (isDeposit && t.getAmount() > 0) {
+                System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+            }
+        }
     }
 
     public static void reportMenu() {
