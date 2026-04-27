@@ -63,6 +63,7 @@ public class Main {
     public static BufferedWriter bufferedWriter;
     public static DateTimeFormatter dateTimeFormatter;
     public static LocalDate today = LocalDate.now();
+
     static void main(String[] args) {
         readFile(TRANSACTIONS_FILE);
         mainMenu();
@@ -74,6 +75,7 @@ public class Main {
         System.out.printf("%-15s %-15s %-30s %-30s %-10s %n", "Date", "Time", "Description", "Vendor", "Amount");
         System.out.println("-------------------------------------------------------------------------------------------------------------");
     }
+
     public static void displayLedger() {
         displayHeader();
         transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime)); //todo ask David
@@ -184,13 +186,13 @@ public class Main {
     public static double readValidatedAmount(boolean isDeposit) {
         double amount;
         //Made a do while loop to make sure the user will enter the right amount whether it is deposit or payment.
-            System.out.println("Amount: ");
+        System.out.println("Amount: ");
         do {
             amount = readDouble();
 
             if (isDeposit && amount < 0) {
                 System.err.println("Invalid input! Deposit must be positive.");
-            } else if (!isDeposit && amount > 0){
+            } else if (!isDeposit && amount > 0) {
                 System.err.println("Invalid input! Payments must be negative.");
             }
         } while ((isDeposit && amount <= 0) || (!isDeposit && amount >= 0));
@@ -199,7 +201,7 @@ public class Main {
     }
 
     public static void subMenu() {
-            boolean isRunning = true;
+        boolean isRunning = true;
         do {
             System.out.println(subMenuPrompt);
             String input = readString();
@@ -243,51 +245,53 @@ public class Main {
         // (3) Year to Date
         // (4) Previous Year
         // (5) Search by inventory
-            System.out.println(reportMenuPrompt);
-            String input = readString();
-            input = input.toUpperCase();
+        System.out.println(reportMenuPrompt);
+        String input = readString();
+        input = input.toUpperCase();
 
-            switch (input) {
-                case "1": //Month to Date
-                    displayThisMonthToDate();
-                    break;
-                case "2": //Previous Month
-                    displayPreviousMonth();
-                    break;
-                case "3": //Year to Date
-                    System.out.println("this is Year to Date");
-                    break;
-                case "4": //Previous Year
-                    System.out.println("this is Previous Year");
-                    break;
-                case "5": //Search by Inventory
-                    System.out.println("this is Search by Inventory");
-                    break;
-                case "0":
-                    //Go back to subMenu()
-                    break;
-                case "H": //Go back to Main Menu
-                    break;
-                default:
-                    System.out.println("Wrong key! That rep doesn’t count.");
-            }
+        switch (input) {
+            case "1": //Month to Date
+                displayThisMonthToDate();
+                break;
+            case "2": //Previous Month
+                displayPreviousMonth();
+                break;
+            case "3": //Year to Date
+                System.out.println("this is Year to Date");
+                break;
+            case "4": //Previous Year
+                System.out.println("this is Previous Year");
+                break;
+            case "5": //Search by Inventory
+                System.out.println("this is Search by Inventory");
+                break;
+            case "0":
+                //Go back to subMenu()
+                break;
+            case "H": //Go back to Main Menu
+                break;
+            default:
+                System.out.println("Wrong key! That rep doesn’t count.");
+        }
     }
 
     public static void displayPreviousMonth() {
-        boolean found = true;
+        LocalDate lastMonthDate = today.minusMonths(1);
+        boolean found = false;
         displayHeader();
 
-        if (found) {
-            for (Transaction t : transactions) {
-                LocalDate transactionDate = LocalDate.parse(t.getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
-                if (transactionDate.getMonth() == today.getMonth().minus(1)) {
-                    System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
-                            t.getDescription(), t.getVendor(), t.getAmount());
-                }
-                found = false;
+        for (Transaction t : transactions) {
+            LocalDate transactionDate = LocalDate.parse(t.getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+            if ((transactionDate.getMonth() == lastMonthDate.getMonth()) && (transactionDate.getYear() == lastMonthDate.getYear())) {
+                System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
+                        t.getDescription(), t.getVendor(), t.getAmount());
+
+                found = true;
             }
-        } else if (!found) {
+        }
+        if (!found) {
             System.out.println("No transactions available last month.");
         }
     }
@@ -299,14 +303,15 @@ public class Main {
         for (Transaction t : transactions) {
             LocalDate transactionDate = LocalDate.parse(t.getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
-            if((transactionDate.getMonth() == today.getMonth()) && (transactionDate.getYear() == today.getYear())) {
-                    System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
-                            t.getDescription(), t.getVendor(), t.getAmount());
+            if ((transactionDate.getMonth() == today.getMonth()) && (transactionDate.getYear() == today.getYear())) {
+                System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
+                        t.getDescription(), t.getVendor(), t.getAmount());
             }
             found = false;
+            System.out.println(" ");
         }
 
-        if (found == false) {
+        if (!found) {
             System.out.println("No transactions available this month.");
         }
     }
