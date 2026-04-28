@@ -55,18 +55,30 @@ public class Main {
             
             
             """;
-    public static ArrayList<Transaction> transactions = new ArrayList<>();
-    public static LocalTime localTime;
-    public static LocalDate localDate;
-    public static FileWriter fileWriter;
+    //variables used for readFile()
     public static BufferedWriter bufferedWriter;
     public static DateTimeFormatter dateTimeFormatter;
+    public static FileWriter fileWriter;
+    public static ArrayList<Transaction> transactions = new ArrayList<>();
+    //variables used for dates; mostly under customReportsMenu()
+    //initialized localTime & localDate to use for the specific needs of each function
+    public static LocalTime localTime;
+    public static LocalDate localDate;
+    //today's date
     public static LocalDate today = LocalDate.now();
+    //last month's date from today
     public static LocalDate lastMonthDate = today.minusMonths(1);
+    //January 1st, 2026
     public static LocalDate january = today.withMonth(1).withDayOfMonth(1);
+    //variables used for Previous Month
+    //Last month's first day
     public static LocalDate firstOfLastMonth = lastMonthDate.withDayOfMonth(1);
+    //Last month's last day
     public static LocalDate lastOfLastMonth = lastMonthDate.withDayOfMonth(lastMonthDate.lengthOfMonth());
+    //variables used for Previous Year
+    //January 1st of last year
     public static LocalDate firstOfLastYear = today.minusYears(1).withMonth(1).withDayOfMonth(1);
+    //Dec 31st of last year
     public static LocalDate lastOfLastYear = today.minusYears(1).withMonth(12).withDayOfMonth(31);
 
     static void main(String[] args) {
@@ -119,7 +131,7 @@ public class Main {
 
     }
 
-    // main menu
+    // Main Menu
     public static void mainMenu() {
         //Do while loop to keep the application working until boolean running = false
         boolean isRunning = true;
@@ -206,7 +218,7 @@ public class Main {
         return amount;
     }
 
-    // sub menu
+    // Sub Menu
     public static void subMenu() {
         boolean isRunning = true;
         do {
@@ -224,7 +236,7 @@ public class Main {
                     displayTransactions(null, null, false);
                     break;
                 case "R": //Custom Reports
-                    reportMenu();
+                    customReportsMenu();
                     break;
                 case "H":
                     isRunning = false; //back to Main Menu
@@ -234,7 +246,7 @@ public class Main {
             }
         } while (isRunning);
     }
-
+    //For this flexible method, used for Previous Month, Previous Year, YTD, and MTD
     public static void displayTransactions(LocalDate start, LocalDate end, Boolean isDeposit) {
         boolean found = false;
         displayHeader();
@@ -259,8 +271,8 @@ public class Main {
         }
     }
 
-    //report menu
-    public static void reportMenu() {
+    //custom reports menu
+    public static void customReportsMenu() {
         //todo make a sub menu that has:
         // (4) Previous Year
         // (5) Search by inventory
