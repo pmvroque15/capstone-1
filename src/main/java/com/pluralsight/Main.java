@@ -66,13 +66,13 @@ public class Main {
     public static LocalDate january = today.withMonth(1).withDayOfMonth(1);
     public static LocalDate firstOfLastMonth = lastMonthDate.withDayOfMonth(1);
     public static LocalDate lastOfLastMonth = lastMonthDate.withDayOfMonth(lastMonthDate.lengthOfMonth());
-
+    public static LocalDate firstOfLastYear = today.minusYears(1).withMonth(1).withDayOfMonth(1);
+    public static LocalDate lastOfLastYear = today.minusYears(1).withMonth(12).withDayOfMonth(31);
 
     static void main(String[] args) {
         readFile(TRANSACTIONS_FILE);
         mainMenu();
         exit();
-
     }
 
     public static void displayHeader() {
@@ -262,8 +262,6 @@ public class Main {
     //report menu
     public static void reportMenu() {
         //todo make a sub menu that has:
-        // (2) Previous Month
-        // (3) Year to Date
         // (4) Previous Year
         // (5) Search by inventory
         System.out.println(reportMenuPrompt);
@@ -281,7 +279,7 @@ public class Main {
                 displayTransactions(january, today, null);
                 break;
             case "4": //Previous Year
-                System.out.println("this is Previous Year");
+                displayTransactions(firstOfLastYear, lastOfLastYear, null);
                 break;
             case "5": //Search by Inventory
                 System.out.println("this is Search by Inventory");
