@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Transaction {
     private LocalDate date; //Maybe change it into LocalDate data type?
@@ -38,5 +39,7 @@ public class Transaction {
         return amount;
     }
     //endregion
-
+    public String toString() {
+        return  String.format("%-15s %-15s %-30s %-30s $%-10s ", this.date, this.time.format(DateTimeFormatter.ofPattern("HH:mm:ss")), this.description, this.vendor, this.amount);
+    }
 }

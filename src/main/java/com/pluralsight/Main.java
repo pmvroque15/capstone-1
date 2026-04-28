@@ -13,21 +13,6 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in);
     //variables used for readFile()    public static DateTimeFormatter dateTimeFormatter;
     public static ArrayList<Transaction> transactions = new ArrayList<>();
-    public static final LocalDate TODAY = LocalDate.now();
-    //last month's date from today
-    public static LocalDate lastMonthDate = TODAY.minusMonths(1);
-    //January 1st, 2026
-    public static final LocalDate JANUARY_FIRST = TODAY.withMonth(1).withDayOfMonth(1);
-    //variables used for Previous Month
-    //Last month's first day
-    public static LocalDate firstOfLastMonth = lastMonthDate.withDayOfMonth(1);
-    //Last month's last day
-    public static LocalDate lastOfLastMonth = lastMonthDate.withDayOfMonth(lastMonthDate.lengthOfMonth());
-    //variables used for Previous Year
-    //January 1st of last year
-    public static LocalDate firstOfLastYear = TODAY.minusYears(1).withMonth(1).withDayOfMonth(1);
-    //Dec 31st of last year
-    public static LocalDate lastOfLastYear = TODAY.minusYears(1).withMonth(12).withDayOfMonth(31);
 
     static void main(String[] args) {
         readFile(TRANSACTIONS_FILE);
@@ -289,8 +274,7 @@ public class Main {
             }
 
             if (matchesDate && matchesType) {
-                System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
-                        t.getDescription(), t.getVendor(), t.getAmount());
+                System.out.println(t);
 
                 found = true;
             }
@@ -303,6 +287,21 @@ public class Main {
 
     //custom reports menu
     public static void customReportsMenu() {
+        LocalDate TODAY = LocalDate.now();
+        //last month's date from today
+        LocalDate lastMonthDate = TODAY.minusMonths(1);
+        //January 1st, 2026
+        LocalDate JANUARY_FIRST = TODAY.withMonth(1).withDayOfMonth(1);
+        //variables used for Previous Month
+        //Last month's first day
+        LocalDate firstOfLastMonth = lastMonthDate.withDayOfMonth(1);
+        //Last month's last day
+        LocalDate lastOfLastMonth = lastMonthDate.withDayOfMonth(lastMonthDate.lengthOfMonth());
+        //variables used for Previous Year
+        //January 1st of last year
+        LocalDate firstOfLastYear = TODAY.minusYears(1).withMonth(1).withDayOfMonth(1);
+        //Dec 31st of last year
+        LocalDate lastOfLastYear = TODAY.minusYears(1).withMonth(12).withDayOfMonth(31);
         //todo make a sub menu that has:
         // (5) Search by inventory
         displayCustomReportsMenu();
@@ -342,7 +341,7 @@ public class Main {
         displayHeader();
         for (Transaction t : transactions) {
              if(t.getVendor().toLowerCase().contains(vendor)) {
-                 System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")), t.getDescription(), t.getVendor(), t.getAmount());
+                 System.out.println(t);
                 found = true;
              }
         }
