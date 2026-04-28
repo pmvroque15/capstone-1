@@ -230,10 +230,10 @@ public class Main {
                     displayLedger();
                     break;
                 case "D": //Display Deposit Transaction
-                    displayTransactions(null, null, true);
+                    displayTransactions(null, null, "Deposit");
                     break;
                 case "P": //Display Payments Transactions
-                    displayTransactions(null, null, false);
+                    displayTransactions(null, null, "Payment");
                     break;
                 case "R": //Custom Reports
                     customReportsMenu();
@@ -247,7 +247,7 @@ public class Main {
         } while (isRunning);
     }
     //For this flexible method, used for Previous Month, Previous Year, YTD, and MTD
-    public static void displayTransactions(LocalDate start, LocalDate end, Boolean isDeposit) {
+    public static void displayTransactions(LocalDate start, LocalDate end, String type) {
         boolean found = false;
         displayHeader();
 
@@ -256,7 +256,16 @@ public class Main {
 
 
             boolean matchesDate = (start == null || !transactionDate.isBefore(start)) && (end == null || !transactionDate.isAfter(end));
-            boolean matchesType = isDeposit == null || (isDeposit && t.getAmount() > 0) || (!isDeposit && t.getAmount() < 0);
+            //this way, it will be more clear whether it's a deposit or payment transaction, otherwise it will show all transactions
+            boolean matchesType;
+
+            if ("deposit".equalsIgnoreCase(type)) {
+                matchesType = t.getAmount() > 0;
+             } else if ("payment".equalsIgnoreCase(type)) {
+                matchesType =  t.getAmount() < 0;
+             } else {
+                matchesType = true; //it will display all
+            }
 
             if (matchesDate && matchesType) {
                 System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
