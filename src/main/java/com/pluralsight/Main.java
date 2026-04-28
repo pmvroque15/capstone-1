@@ -119,8 +119,12 @@ public class Main {
                 line = line.trim();
                 String[] splitLine = line.split("\\|");
 
-                LocalDate date = LocalDate.parse(splitLine[0]);
-                LocalTime time = LocalTime.parse(splitLine[1]);
+                //Formatter for date and time
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+                LocalDate date = LocalDate.parse(splitLine[0], dateFormatter);
+                LocalTime time = LocalTime.parse(splitLine[1], timeFormatter);
                 String description = splitLine[2];
                 String vendor = splitLine[3];
                 double amount = Double.parseDouble(splitLine[4]);
