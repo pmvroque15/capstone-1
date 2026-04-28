@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
@@ -63,11 +62,14 @@ public class Main {
     public static BufferedWriter bufferedWriter;
     public static DateTimeFormatter dateTimeFormatter;
     public static LocalDate today = LocalDate.now();
+    public static LocalDate lastMonthDate = today.minusMonths(1);
+    public static LocalDate january = today.withMonth(1).withDayOfMonth(1);
 
     static void main(String[] args) {
         readFile(TRANSACTIONS_FILE);
         mainMenu();
         exit();
+
     }
 
     public static void displayHeader() {
@@ -114,6 +116,7 @@ public class Main {
 
     }
 
+    // main menu
     public static void mainMenu() {
         //Do while loop to keep the application working until boolean running = false
         boolean isRunning = true;
@@ -200,6 +203,7 @@ public class Main {
         return amount;
     }
 
+    // sub menu
     public static void subMenu() {
         boolean isRunning = true;
         do {
@@ -239,6 +243,7 @@ public class Main {
         }
     }
 
+    //report menu
     public static void reportMenu() {
         //todo make a sub menu that has:
         // (2) Previous Month
@@ -257,7 +262,7 @@ public class Main {
                 displayPreviousMonth();
                 break;
             case "3": //Year to Date
-                System.out.println("this is Year to Date");
+                displayThisYearToDate();
                 break;
             case "4": //Previous Year
                 System.out.println("this is Previous Year");
@@ -268,15 +273,34 @@ public class Main {
             case "0":
                 //Go back to subMenu()
                 break;
-            case "H": //Go back to Main Menu
-                break;
             default:
                 System.out.println("Wrong key! That rep doesn’t count.");
         }
     }
 
+    private static void displayThisYearToDate() {
+        boolean found = false;
+        displayHeader();
+
+
+        for (Transaction t : transactions) {
+            LocalDate transactionDate = LocalDate.parse(t.getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            // todo make a conditional that is basing of the real fiscal year
+            //for now, let's say Jan is the first month of the Quarter
+            //Entries on or after Jan 1st && Entries on or before today's date
+            if ((transactionDate.isEqual(january) || transactionDate.isAfter(january)) && (transactionDate.isBefore(today) || transactionDate.isEqual(today))) {
+                System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
+                        t.getDescription(), t.getVendor(), t.getAmount());
+
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No transactions available last month.");
+        }
+    }
+
     public static void displayPreviousMonth() {
-        LocalDate lastMonthDate = today.minusMonths(1);
         boolean found = false;
         displayHeader();
 
@@ -332,10 +356,6 @@ public class Main {
     /* region Scanner Methods */
     public static String readString() {
         return scanner.nextLine();
-    }
-
-    public static int readInt() {
-        return Integer.parseInt(scanner.nextLine());
     }
 
     public static double readDouble() {
