@@ -5,11 +5,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Transaction {
-    private LocalDate date; //Maybe change it into LocalDate data type?
-    private LocalTime time;
-    private String description;
-    private String vendor;
-    private double amount;
+    private final LocalDate date; //Maybe change it into LocalDate data type?
+    private final LocalTime time;
+    private final String description;
+    private final String vendor;
+    private final double amount;
     public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
@@ -40,6 +40,6 @@ public class Transaction {
     }
     //endregion
     public String toString() {
-        return  String.format("%-15s %-15s %-30s %-30s $%-10s ", this.date, this.time.format(DateTimeFormatter.ofPattern("HH:mm:ss")), this.description, this.vendor, this.amount);
+        return  String.format("%-15s %-15s %-30s %-30s $%-10s ", this.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")), this.time, this.description, this.vendor, this.amount);
     }
 }

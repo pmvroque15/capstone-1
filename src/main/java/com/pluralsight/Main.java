@@ -11,8 +11,9 @@ import java.util.Scanner;
 public class Main {
     public static final String TRANSACTIONS_FILE = "src/main/resources/transactions.csv";
     public static Scanner scanner = new Scanner(System.in);
-    //variables used for readFile()    public static DateTimeFormatter dateTimeFormatter;
     public static ArrayList<Transaction> transactions = new ArrayList<>();
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     static void main(String[] args) {
         readFile(TRANSACTIONS_FILE);
@@ -101,12 +102,8 @@ public class Main {
                 line = line.trim();
                 String[] splitLine = line.split("\\|");
 
-                //Formatter for date and time
-                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-                LocalDate date = LocalDate.parse(splitLine[0], dateFormatter);
-                LocalTime time = LocalTime.parse(splitLine[1], timeFormatter);
+                LocalDate date = LocalDate.parse(splitLine[0], DATE_FORMATTER);
+                LocalTime time = LocalTime.parse(splitLine[1], TIME_FORMATTER);
                 String description = splitLine[2];
                 String vendor = splitLine[3];
                 double amount = Double.parseDouble(splitLine[4]);
@@ -155,7 +152,6 @@ public class Main {
         } while (isRunning);
     }
     public static Transaction getTransactionFromUser(String transactionType) {
-        DateTimeFormatter dateTimeFormatter;
         LocalTime localTime;
         LocalDate localDate;
 
@@ -163,13 +159,11 @@ public class Main {
 
         System.out.printf("Enter date of %s (MM/dd/yyyy): \n", transactionType);
         String date = readString();
-        dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        localDate = LocalDate.parse(date, dateTimeFormatter);
+        localDate = LocalDate.parse(date, DATE_FORMATTER);
 
         System.out.printf("Enter time of %s (HH:mm:ss): \n", transactionType);
         String time = readString();
-        dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        localTime = LocalTime.parse(time, dateTimeFormatter);
+        localTime = LocalTime.parse(time, TIME_FORMATTER);
 
         System.out.printf("Enter %s Description: \n", transactionType);
         String description = readString();
@@ -195,7 +189,7 @@ public class Main {
                 bufferedWriter.newLine();
             }
 
-            bufferedWriter.write(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription() + "|" + transaction.getVendor() + "|" + transaction.getAmount());
+            bufferedWriter.write(transaction.getDate().format(DATE_FORMATTER) + "|" + transaction.getTime().format(TIME_FORMATTER) + "|" + transaction.getDescription() + "|" + transaction.getVendor() + "|" + transaction.getAmount());
             //to update the file since we append new data to transactions.csv
             bufferedWriter.close();
         } catch (IOException e) {
@@ -336,8 +330,7 @@ public class Main {
     private static void displaySearchByInventory() {
         boolean found = false;
         System.out.println("Search by vendor name: ");
-        String vendor = readString();
-        vendor = vendor.toLowerCase();
+        String vendor = readString().trim().toLowerCase();
         displayHeader();
         for (Transaction t : transactions) {
              if(t.getVendor().toLowerCase().contains(vendor)) {
