@@ -63,7 +63,7 @@ public class Main {
     public static DateTimeFormatter dateTimeFormatter;
     public static LocalDate today = LocalDate.now();
     public static LocalDate lastMonthDate = today.minusMonths(1);
-    public static LocalDate startDate = today.withMonth(1).withDayOfMonth(1);
+    public static LocalDate january = today.withMonth(1).withDayOfMonth(1);
     public static LocalDate firstOfLastMonth = lastMonthDate.withDayOfMonth(1);
     public static LocalDate lastOfLastMonth = lastMonthDate.withDayOfMonth(lastMonthDate.lengthOfMonth());
 
@@ -257,14 +257,6 @@ public class Main {
         if (!found) {
             System.out.println("No transactions available this month.");
         }
-
-//        for (Transaction t : transactions) {
-//            if (!isDeposit && t.getAmount() < 0) {
-//                System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-//            } else if (isDeposit && t.getAmount() > 0) {
-//                System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
-//            }
-//        }
     }
 
     //report menu
@@ -283,10 +275,10 @@ public class Main {
                 displayTransactions(today.withDayOfMonth(1),today, null);
                 break;
             case "2": //Previous Month
-                displayPreviousMonth();
+                displayTransactions(firstOfLastMonth, lastOfLastMonth, null);
                 break;
             case "3": //Year to Date
-                displayThisYearToDate();
+                displayTransactions(january, today, null);
                 break;
             case "4": //Previous Year
                 System.out.println("this is Previous Year");
@@ -299,68 +291,6 @@ public class Main {
                 break;
             default:
                 System.out.println("Wrong key! That rep doesn’t count.");
-        }
-    }
-
-    public static void displayThisYearToDate() {
-        boolean found = false;
-        displayHeader();
-
-        for (Transaction t : transactions) {
-            LocalDate transactionDate = LocalDate.parse(t.getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-            // todo make a conditional that is basing of the real fiscal year
-            //for now, let's say Jan is the first month of the Quarter
-            //Entries on or after Jan 1st && Entries on or before today's date
-            if ((transactionDate.isEqual(startDate) || transactionDate.isAfter(startDate)) && (transactionDate.isBefore(today) || transactionDate.isEqual(today))) {
-                System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
-                        t.getDescription(), t.getVendor(), t.getAmount());
-
-                found = true;
-            }
-        }
-        if (!found) {
-            System.out.println("No transactions available last month.");
-        }
-    }
-
-    public static void displayPreviousMonth() {
-//        boolean found = false;
-//        displayHeader();
-//
-//
-//        for (Transaction t : transactions) {
-//            LocalDate transactionDate = LocalDate.parse(t.getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-//
-//            if ((transactionDate.getMonth() == lastMonthDate.getMonth()) && (transactionDate.getYear() == lastMonthDate.getYear())) {
-//                System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
-//                        t.getDescription(), t.getVendor(), t.getAmount());
-//
-//                found = true;
-//            }
-//        }
-//        if (!found) {
-//            System.out.println("No transactions available last month.");
-//        }
-        displayTransactions(firstOfLastMonth, lastOfLastMonth, null);
-    }
-
-    public static void displayThisMonthToDate() {
-        boolean found = true;
-        displayHeader();
-
-        for (Transaction t : transactions) {
-            LocalDate transactionDate = LocalDate.parse(t.getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-
-            if ((transactionDate.getMonth() == today.getMonth()) && (transactionDate.getYear() == today.getYear())) {
-                System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(),
-                        t.getDescription(), t.getVendor(), t.getAmount());
-            }
-            found = false;
-            System.out.println(" ");
-        }
-
-        if (!found) {
-            System.out.println("No transactions available this month.");
         }
     }
 
