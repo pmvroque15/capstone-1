@@ -11,65 +11,18 @@ import java.util.Scanner;
 public class Main {
     public static final String TRANSACTIONS_FILE = "src/main/resources/transactions.csv";
     public static Scanner scanner = new Scanner(System.in);
-    public static String mainMenuPrompt = """
-            
-                                                                =============================================================
-                                                                               SQUATS AND SCIENCE BARBELL LLC
-                                                                =============================================================
-                                                                                Please select an option:
-            
-                                                                                Press D to Add Deposit
-                                                                                Press P to Make a Payment
-                                                                                Press L to Display Ledger
-                                                                                Press X to Exit
-            
-            """;
-    public static String subMenuPrompt = """
-            
-                                                                =============================================================
-                                                                                         LEDGER
-                                                                =============================================================
-                                                                                 Please select an option:
-            
-                                                                                Press A to Display Ledger (Sorted)
-                                                                                Press D to Display all Deposit Transactions
-                                                                                Press P to Display all Payment Transactions
-                                                                                Press R to Do a Custom Search Report
-                                                                                Press H to Go Back
-            
-            """;
-    public static String reportMenuPrompt = """
-            
-                                                                =============================================================
-                                                                                        REPORTS
-                                                                =============================================================
-                                                                                 Please select an option:
-            
-                                                                                Press 1 to Display Month to Date
-                                                                                Press 2 to Display Previous Month(s)
-                                                                                Press 3 to Display Year to Date
-                                                                                Press 4 to Display Previous Year
-                                                                                Press 5 to Search by Vendor
-                                                                                Press 0 to Go Back
-                                                                                Press H to Go Back to Main Menu
-            
-            
-            """;
-    //variables used for readFile()
-    public static BufferedWriter bufferedWriter;
-    public static DateTimeFormatter dateTimeFormatter;
-    public static FileWriter fileWriter;
+    //variables used for readFile()    public static DateTimeFormatter dateTimeFormatter;
     public static ArrayList<Transaction> transactions = new ArrayList<>();
     //variables used for dates; mostly under customReportsMenu()
     //initialized localTime & localDate to use for the specific needs of each function
     public static LocalTime localTime;
     public static LocalDate localDate;
     //today's date
-    public static LocalDate today = LocalDate.now();
+    public static final LocalDate TODAY = LocalDate.now();
     //last month's date from today
-    public static LocalDate lastMonthDate = today.minusMonths(1);
+    public static LocalDate lastMonthDate = TODAY.minusMonths(1);
     //January 1st, 2026
-    public static LocalDate january = today.withMonth(1).withDayOfMonth(1);
+    public static final LocalDate JANUARY_FIRST = TODAY.withMonth(1).withDayOfMonth(1);
     //variables used for Previous Month
     //Last month's first day
     public static LocalDate firstOfLastMonth = lastMonthDate.withDayOfMonth(1);
@@ -77,9 +30,9 @@ public class Main {
     public static LocalDate lastOfLastMonth = lastMonthDate.withDayOfMonth(lastMonthDate.lengthOfMonth());
     //variables used for Previous Year
     //January 1st of last year
-    public static LocalDate firstOfLastYear = today.minusYears(1).withMonth(1).withDayOfMonth(1);
+    public static LocalDate firstOfLastYear = TODAY.minusYears(1).withMonth(1).withDayOfMonth(1);
     //Dec 31st of last year
-    public static LocalDate lastOfLastYear = today.minusYears(1).withMonth(12).withDayOfMonth(31);
+    public static LocalDate lastOfLastYear = TODAY.minusYears(1).withMonth(12).withDayOfMonth(31);
 
     static void main(String[] args) {
         readFile(TRANSACTIONS_FILE);
@@ -93,9 +46,63 @@ public class Main {
         System.out.println("-------------------------------------------------------------------------------------------------------------");
     }
 
+    public static void displayMainMenu() {
+        System.out.println("""
+            
+                                                        =============================================================
+                                                                        SQUATS AND SCIENCE BARBELL LLC
+                                                        =============================================================
+                                                                        Please select an option:
+    
+                                                                        Press D to Add Deposit
+                                                                        Press P to Make a Payment
+                                                                        Press L to Display Ledger
+                                                                        Press X to Exit
+    
+            """);
+    }
+
+    public static void displayLedgerMenu() {
+        System.out.println("""
+            
+                                                        =============================================================
+                                                                                  LEDGER
+                                                        =============================================================
+                                                                         Please select an option:
+    
+                                                                        Press A to Display Ledger (Sorted)
+                                                                        Press D to Display all Deposit Transactions
+                                                                        Press P to Display all Payment Transactions
+                                                                        Press R to Do a Custom Search Report
+                                                                        Press H to Go Back
+            
+            """);
+    }
+
+    public static void displayCustomReportsMenu() {
+        System.out.println("""
+            
+                                                        =============================================================
+                                                                                 REPORTS
+                                                        =============================================================
+                                                                         Please select an option:
+    
+                                                                        Press 1 to Display Month to Date
+                                                                        Press 2 to Display Previous Month(s)
+                                                                        Press 3 to Display Year to Date
+                                                                        Press 4 to Display Previous Year
+                                                                        Press 5 to Search by Vendor
+                                                                        Press 0 to Go Back
+                                                                        Press H to Go Back to Main Menu
+            
+            
+            """);
+    }
+
     public static void displayLedger() {
         displayHeader();
-        transactions.sort(Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime)); //todo ask David
+        transactions.sort(Comparator.comparing(Transaction::getDate));
+        transactions.sort(Comparator.comparing(Transaction::getTime));
         for (Transaction t : transactions) {
             System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
         }
@@ -103,13 +110,14 @@ public class Main {
 
     public static void readFile(String fileName) {
         try {
+            //clearing the transaction ArrayList so it won't multiply when method is called again
             transactions.clear();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
             String line = " ";
             bufferedReader.readLine();
 
             while ((line = bufferedReader.readLine()) != null) {
-                line = line.trim(); //Defensive coding for whitespace
+                line = line.trim();
                 String[] splitLine = line.split("\\|");
 
                 String date = splitLine[0];
@@ -124,9 +132,9 @@ public class Main {
             }
             bufferedReader.close();
         } catch (FileNotFoundException e) {
-            System.err.println("Nope");
+            System.err.println("File not found. It ghosted harder than your gym motivation.");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("I/O error. Something broke under pressure—too many reps.");
         }
 
     }
@@ -136,20 +144,21 @@ public class Main {
         //Do while loop to keep the application working until boolean running = false
         boolean isRunning = true;
         do {
-            System.out.println(mainMenuPrompt);
+            displayMainMenu();
             String input = readString();
             input = input.toUpperCase();
             switch (input) {
                 case "D": //Add Deposit
-                    addTransaction(true);
-                    System.out.println("Success!");
+                    getTransactionFromUser("Deposit");
+                    addTransaction(deposit,TRANSACTIONS_FILE);
+                    System.out.println("DEBUG: Success!");
                     break;
                 case "P": //Make A Payment
                     addTransaction(false);
-                    System.out.println("Success!");
+                    System.out.println("DEBUG: Success!");
                     break;
                 case "L"://Ledger menu
-                    subMenu();
+                    ledgerMenu();
                     break;
                 case "X": //Exit
                     isRunning = false;
@@ -159,22 +168,23 @@ public class Main {
             }
         } while (isRunning);
     }
+    //todo change LocalDate/LocalTime from String data types
+    public static Transaction getTransactionFromUser(String transactionType) {
+        DateTimeFormatter dateTimeFormatter;
 
-    public static void addTransaction(boolean isDeposit) {
         //used ternary condition to make one if/else condition than doing every single input.
-        String type = isDeposit ? "Deposit" : "Payment";
-
-        System.out.printf("Enter date of %s (MM/dd/yyyy): \n", type);
+        
+        System.out.printf("Enter date of %s (MM/dd/yyyy): \n", transactionType);
         String date = readString();
         dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         localDate = LocalDate.parse(date, dateTimeFormatter);
 
-        System.out.printf("Enter time of %s (HH:mm:ss): \n", type);
+        System.out.printf("Enter time of %s (HH:mm:ss): \n", transactionType);
         String time = readString();
         dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         localTime = LocalTime.parse(time, dateTimeFormatter);
 
-        System.out.printf("Enter %s Description: \n", type);
+        System.out.printf("Enter %s Description: \n", transactionType);
         String description = readString();
 
         System.out.println("Enter Vendor Name: ");
@@ -185,17 +195,20 @@ public class Main {
         entered a positive amount, it's going to flag
          and will keep looping until user enters a positive amount
         */
-        double amount = readValidatedAmount(isDeposit);
+        double amount = readValidatedAmount(transactionType);
+
+        return new Transaction(localDate, localTime, description, vendorName, amount);
+    }
+    public static void addTransaction(Transaction transaction, String fileName) {
 
         try {
-            fileWriter = new FileWriter(TRANSACTIONS_FILE, true);
-            bufferedWriter = new BufferedWriter(fileWriter);
+            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter(fileName, true));
             bufferedWriter.newLine();
-            bufferedWriter.write(date + "|" + time + "|" + description + "|" + vendorName + "|" + amount);
+            bufferedWriter.write(transaction.getDate() + "|" + transaction.getTime() + "|" + transaction.getDescription() + "|" + transaction.getVendor() + "|" + transaction.getAmount());
             //to update the file since we append new data to transactions.csv
             bufferedWriter.close();
             //Re-reads the current file
-            readFile(TRANSACTIONS_FILE);
+            readFile(fileName);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -218,11 +231,11 @@ public class Main {
         return amount;
     }
 
-    // Sub Menu
-    public static void subMenu() {
+    // Ledger Menu
+    public static void ledgerMenu() {
         boolean isRunning = true;
         do {
-            System.out.println(subMenuPrompt);
+            displayLedgerMenu();
             String input = readString();
             input = input.toUpperCase();
             switch (input) {
@@ -254,11 +267,12 @@ public class Main {
         for (Transaction t : transactions) {
             LocalDate transactionDate = LocalDate.parse(t.getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
-
+            //in English: is it ON or AFTER start/ON or BEFORE end
+            //Both null will pass everything otherwise, it will go through the filter process
             boolean matchesDate = (start == null || !transactionDate.isBefore(start)) && (end == null || !transactionDate.isAfter(end));
             //this way, it will be more clear whether it's a deposit or payment transaction, otherwise it will show all transactions
             boolean matchesType;
-
+            //made an if/else condition because assigning it was too "strict" to filter the arguments for determining the transactions
             if ("deposit".equalsIgnoreCase(type)) {
                 matchesType = t.getAmount() > 0;
              } else if ("payment".equalsIgnoreCase(type)) {
@@ -283,21 +297,21 @@ public class Main {
     //custom reports menu
     public static void customReportsMenu() {
         //todo make a sub menu that has:
-        // (4) Previous Year
         // (5) Search by inventory
-        System.out.println(reportMenuPrompt);
+        displayCustomReportsMenu();
         String input = readString();
         input = input.toUpperCase();
 
         switch (input) {
             case "1": //Month to Date
-                displayTransactions(today.withDayOfMonth(1),today, null);
+                displayTransactions(TODAY.withDayOfMonth(1),TODAY, null); //today.withDayOfMonth(1) = April 1st
                 break;
             case "2": //Previous Month
                 displayTransactions(firstOfLastMonth, lastOfLastMonth, null);
                 break;
             case "3": //Year to Date
-                displayTransactions(january, today, null);
+                //todo ask David if we have to follow the fiscal year
+                displayTransactions(JANUARY_FIRST, TODAY, null);
                 break;
             case "4": //Previous Year
                 displayTransactions(firstOfLastYear, lastOfLastYear, null);
@@ -306,7 +320,7 @@ public class Main {
                 System.out.println("this is Search by Inventory");
                 break;
             case "0":
-                //Go back to subMenu()
+                //Go back to ledgerMenu()
                 break;
             default:
                 System.out.println("Wrong key! That rep doesn’t count.");

@@ -1,7 +1,7 @@
 package com.pluralsight;
 
 public class Transaction {
-    private String date;
+    private String date; //Maybe change it into LocalDate data type?
     private String time;
     private String description;
     private String vendor;
