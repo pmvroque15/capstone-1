@@ -13,10 +13,6 @@ public class Main {
     public static Scanner scanner = new Scanner(System.in);
     //variables used for readFile()    public static DateTimeFormatter dateTimeFormatter;
     public static ArrayList<Transaction> transactions = new ArrayList<>();
-    //variables used for dates; mostly under customReportsMenu()
-    //initialized localTime & localDate to use for the specific needs of each function
-
-    //today's date
     public static final LocalDate TODAY = LocalDate.now();
     //last month's date from today
     public static LocalDate lastMonthDate = TODAY.minusMonths(1);
@@ -102,8 +98,9 @@ public class Main {
         displayHeader();
         transactions.sort(Comparator.comparing(Transaction::getDate));
         transactions.sort(Comparator.comparing(Transaction::getTime));
+        //todo make a variable
         for (Transaction t : transactions) {
-            System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime(), t.getDescription(), t.getVendor(), t.getAmount());
+            System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")), t.getDescription(), t.getVendor(), t.getAmount());
         }
     }
 
@@ -172,8 +169,6 @@ public class Main {
             }
         } while (isRunning);
     }
-
-    //todo change LocalDate/LocalTime from String data types
     public static Transaction getTransactionFromUser(String transactionType) {
         DateTimeFormatter dateTimeFormatter;
         LocalTime localTime;
@@ -329,13 +324,31 @@ public class Main {
                 displayTransactions(firstOfLastYear, lastOfLastYear, null);
                 break;
             case "5": //Search by Inventory
-                System.out.println("this is Search by Inventory");
+                displaySearchByInventory();
                 break;
             case "0":
                 //Go back to ledgerMenu()
                 break;
             default:
                 System.out.println("Wrong key! That rep doesn’t count.");
+        }
+    }
+
+    private static void displaySearchByInventory() {
+        boolean found = false;
+        System.out.println("Search by vendor name: ");
+        String vendor = readString();
+        vendor = vendor.toLowerCase();
+        displayHeader();
+        for (Transaction t : transactions) {
+             if(t.getVendor().toLowerCase().contains(vendor)) {
+                 System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")), t.getDescription(), t.getVendor(), t.getAmount());
+                found = true;
+             }
+        }
+
+        if(!found) {
+            System.out.println("No vendor found");
         }
     }
 
@@ -356,7 +369,6 @@ public class Main {
     public static String readString() {
         return scanner.nextLine();
     }
-
 
     public static double readDouble() {
         return Double.parseDouble(scanner.nextLine());
