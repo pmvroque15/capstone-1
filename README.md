@@ -18,11 +18,18 @@ A console based Java Application for tracking gym-related financial transactions
 ## Overview
 **Gainful Ledger** is a Java CLI application that allows users to track deposits and payments, view a complete transaction history, and generate custom reports by date or vendor. The experience is enhanced with a fun gym-themed interface, featuring ASCII art menus and motivational messages.
 
-**Add something about how the process was for you 1. image
 ---
+## Biggest Challenge
 
+One of the biggest challenges I faced was keeping the code condensed. My goal was to create reusable, simple methods and I'm proud to say I pulled it off! A great example of this is under the Custom Reports Menu: MTD, YTD, Previous Month, and Previous Year. Initially I had each report as its own separate method, but then I realized the logic behind each one was essentially the same, so I consolidated them all into one.  thought I could take advantage of date ranges, so I made good use of LocalDate and LocalTime to make that happen.
+
+**The method call:**
+```
+displayTransactions(LocalDate start, LocalDate end, String type)
+```
+<img alt="patrick-star-spongebob-squarepants.gif" src="utilities/patrick-star-spongebob-squarepants.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+---
 ## Features
-
 | **Adding Deposit And Payment Transactions** 	| Description prompts the user and collects all required transaction data via scanner inputs. Appends a new pipe-delimited transaction row to the file using  FileWriter and BufferedWriter without overwriting existing data. Filters the transaction type by taking in a transactionType String parameter to validate the entered amount. 	|
 |---------------------------------------------	|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
 | **Full Ledger View**                        	| View all transactions sorted by date and time (newest first)                                                                                                                                                                                                                                                                              	|
@@ -31,7 +38,6 @@ A console based Java Application for tracking gym-related financial transactions
 | **Search by Vendor**                        	| Find all transactions by a specific vendor name                                                                                                                                                                                                                                                                                           	|
 | **File Storage**                            	| All transactions are saved to a CSV file and loaded on startup                                                                                                                                                                                                                                                                            	|
 | **Input Validation**                        	| Enforces positive amounts for deposits and negative for payments                                                                                                                                                                                                                                                                          	|
-
 ---
 ## Project Structure
 
@@ -44,17 +50,7 @@ P.S Not the best handwriting, but this is how it all started...
 **The Project Tree**
 
 Nothing too complicated here, just a clean setup to keep things organized.
-```
-src/
-└── main/
-    ├── java/
-    │   └── com/pluralsight/
-    │       ├── Main.java          # Application entry point & all menu logic
-    │       └── Transaction.java   # Transaction data model
-    └── resources/
-        └── transactions.csv       # transaction storage
-```
----
+
 ### Running the App
 
 1. Clone or download the project
