@@ -143,3 +143,9 @@ date|time|description|vendor|amount
 Built with lots of brain cells and mooskels by a developer who take their gains *and* their bookkeeping seriously ᕙ(⇀‸↼‶)ᕗ
 
 <img alt="utilities/cat-sport.gif" src="utilities/cat-sport.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+
+---
+
+[^1]: Huge shoutout to my instructor David for teaching us Java in a fun way and making this happen. To many more capstones!!
+
+<img alt="38FF2592-6546-454F-AAA8-4021FC18883E_4_5005_c.jpeg" src="utilities/B90BBF4F-C68D-477A-9B1D-85617A19AD2C.jpeg" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
