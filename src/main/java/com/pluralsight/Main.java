@@ -28,18 +28,21 @@ public class Main {
     }
 
     public static void displayMainMenu() {
-        System.out.println("""
+        System.out.printf("""
+                                                         __  _  _ _  _ ___ __    _  _  _ __    __  __ _ ___ _  _  __ ___     _   _   __\s
+                                                        / _|/ \\| | |/ |_ _/ _|  / \\| \\| |  \\  / _|/ _| | __| \\| |/ _| __|   | | | | / _|
+                                                        \\_ ( o | U | o | |\\_ \\ | o | \\\\ | o ) \\_ ( (_| | _|| \\\\ ( (_| _|    | |_| |( (_\s
+                                                        |__/\\_,|___|_n_|_||__/ |_n_|_|\\_|__/  |__/\\__|_|___|_|\\_|\\__|___()  |___|___\\__|
+                                                                                                                        V              \s  \n
+                                                                =============================================================
+                                                                                         Main Menu
+                                                                =============================================================
+                                                                                   Please select an option:
                 
-                                                            =============================================================
-                                                                             SQUATS AND SCIENCE BARBELL LLC
-                                                            =============================================================
-                                                                               Please select an option:
-                    
-                                                                               Press D to Add Deposit
-                                                                               Press P to Make a Payment
-                                                                               Press L to Display Ledger
-                                                                               Press X to Exit
-                
+                                                                                   Press D to Add Deposit
+                                                                                   Press P to Make a Payment
+                                                                                   Press L to Display Ledger
+                                                                                   Press X to Exit
                 """);
     }
 
@@ -81,9 +84,8 @@ public class Main {
 
     public static void displayLedger() {
         displayHeader();
-        transactions.sort(Comparator.comparing(Transaction::getDate));
-        transactions.sort(Comparator.comparing(Transaction::getTime));
-        //todo make a variable
+        transactions.sort(Comparator.comparing(Transaction::getDate)
+                .thenComparing(Transaction::getTime));
         for (Transaction t : transactions) {
             System.out.println(t);
         }
