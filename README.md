@@ -28,6 +28,7 @@ One of the biggest challenges I faced was keeping the code condensed. My goal wa
 displayTransactions(LocalDate start, LocalDate end, String type)
 ```
 <img src="utilities/patrick-star-spongebob-squarepants.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+
 ---
 
 ## Features
