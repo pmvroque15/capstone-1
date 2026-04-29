@@ -28,6 +28,7 @@ One of the biggest challenges I faced was keeping the code condensed. My goal wa
 displayTransactions(LocalDate start, LocalDate end, String type)
 ```
 <img src="utilities/patrick-star-spongebob-squarepants.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+
 ---
 
 ## Features
@@ -38,7 +39,8 @@ displayTransactions(LocalDate start, LocalDate end, String type)
 | **Custom Date Reports**                     	| The custom reports include Month to Date, Previous Month, Year to Date, and Previous Year.                                                                                                                                                                                                                                                	|
 | **Search by Vendor**                        	| Find all transactions by a specific vendor name                                                                                                                                                                                                                                                                                           	|
 | **File Storage**                            	| All transactions are saved to a CSV file and loaded on startup                                                                                                                                                                                                                                                                            	|
-| **Input Validation**                        	| Enforces positive amounts for deposits and negative for payments                                                                                                                                                                                                                                                                          	|
+| **Input Validation**                        	| Enforces positive amounts for deposits and negative for payments                                                                                        |
+
 ---
 ## Project Structure
 
