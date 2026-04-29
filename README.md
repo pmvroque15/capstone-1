@@ -37,7 +37,7 @@ A console based Java Application for tracking gym-related financial transactions
 
 Before jumping on my laptop and writing any code, I took some time to really understand the flow of the project. As a visual learner, it helps me to map everything out first — so I grabbed a piece of paper and sketched out some flowcharts the old fashioned way!
 
-<img alt="IMG_3947.jpeg" height="500px" width="400px" src="src/main/resources/IMG_3947.jpeg" style="display: block; margin-left: auto; margin-right: auto; width: 50%; transform: rotate(-90deg);"/>
+<img alt="IMG_3947.jpeg" src="utilities/IMG_3947.jpeg" style="display: block; margin-left: auto; margin-right: auto; width: 50%; transform: rotate(-90deg);"/>
 
 P.S Not the best handwriting, but this is how it all started...
 
@@ -54,3 +54,93 @@ src/
     └── resources/
         └── transactions.csv       # transaction storage
 ```
+---
+### Running the App
+
+1. Clone or download the project
+2. Make sure `src/main/resources/transactions.csv` exists with a header row:
+   ```
+   date|time|description|vendor|amount
+   ```
+3. Compile and run `Main.java`:
+   ```bash
+   javac src/main/java/com/pluralsight/Main.java
+   java com.pluralsight.Main
+   ```
+   Or run via your IDE (IntelliJ, Eclipse, etc.)
+ ---
+## How to use
+
+### Main Menu
+```
+D  →  Add a Deposit
+P  →  Make a Payment
+L  →  Open the Ledger
+X  →  Exit
+```
+### Ledger Menu
+```
+A  →  Display All Transactions (sorted newest first)
+D  →  Display Deposits Only
+P  →  Display Payments Only
+R  →  Open Custom Reports
+H  →  Go Back to Main Menu
+```
+### Custom Reports Menu
+```
+1  →  Month to Date
+2  →  Previous Month
+3  →  Year to Date
+4  →  Previous Year
+5  →  Search by Vendor
+0  →  Go Back
+```
+
+When prompted, enter:
+
+| Field       | Format         | Example              |
+|-------------|----------------|----------------------|
+| Date        | `MM/dd/yyyy`   | `04/29/2026`         |
+| Time        | `HH:mm:ss`     | `14:35:00`           |
+| Description | Free text      | `Monthly Membership` |
+| Vendor      | Free text      | `Iron Planet Gym`    |
+| Amount      | Decimal number | `59.99` or `-59.99`  |
+
+**Deposits must be **positive**. Payments must be **negative**. The app will re-prompt if you enter the wrong sign.**
+
+---
+Transactions are stored in `transactions.csv` using pipe-delimited (`|`) values:
+
+```
+date|time|description|vendor|amount
+04/29/2026|14:35:00|Monthly Membership|Iron Planet Gym|59.99
+04/15/2026|09:10:00|Protein Supplements|GNC|−45.00
+```
+
+***The file is read on startup and appended to on every new transaction.***
+
+---
+## Error Handling
+
+| Scenario                        | Response                                                    |
+|---------------------------------|-------------------------------------------------------------|
+| File not found                  | `"File not found. It ghosted harder than your gym motivation."` |
+| I/O error                       | `"I/O error. Something broke under pressure—too many reps."` |
+| Wrong deposit amount (negative) | Re-prompts: `"Invalid input! Deposit must be positive."`   |
+| Wrong payment amount (positive) | Re-prompts: `"Invalid input! Payments must be negative."`  |
+| No matching transactions        | `"No transactions this month—your ledger is lighter than your warm-up set."` |
+| Invalid menu input              | `"Wrong key! That rep doesn't count."`                     |
+ 
+
+---
+## Technologies Used
+
+- **Java 17+**
+- `java.time` — `LocalDate`, `LocalTime`, `DateTimeFormatter`
+- `java.io` — `BufferedReader`, `BufferedWriter`, `FileReader`, `FileWriter`
+- `java.util` — `ArrayList`, `Comparator`, `Scanner`
+---
+## Author
+Built with lots of brain cells and mooskels by a developer who take their gains *and* their bookkeeping seriously ᕙ(⇀‸↼‶)ᕗ
+
+<img alt="utilities/cat-sport.gif" src="utilities/cat-sport.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
