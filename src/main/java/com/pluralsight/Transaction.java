@@ -40,6 +40,6 @@ public class Transaction {
     }
     //endregion
     public String toString() {
-        return  String.format("%-15s %-15s %-30s %-30s $%-10s ", this.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")), this.time, this.description, this.vendor, this.amount);
+        return  String.format("%-15s %-15s %-30s %-30s $%-10s ", this.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")), this.time.format(DateTimeFormatter.ofPattern("HH:mm:ss")), this.description, this.vendor, this.amount);
     }
 }

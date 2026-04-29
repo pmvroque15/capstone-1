@@ -31,14 +31,14 @@ public class Main {
         System.out.println("""
                 
                                                             =============================================================
-                                                                            SQUATS AND SCIENCE BARBELL LLC
+                                                                             SQUATS AND SCIENCE BARBELL LLC
                                                             =============================================================
-                                                                            Please select an option:
-                
-                                                                            Press D to Add Deposit
-                                                                            Press P to Make a Payment
-                                                                            Press L to Display Ledger
-                                                                            Press X to Exit
+                                                                               Please select an option:
+                    
+                                                                               Press D to Add Deposit
+                                                                               Press P to Make a Payment
+                                                                               Press L to Display Ledger
+                                                                               Press X to Exit
                 
                 """);
     }
@@ -47,15 +47,15 @@ public class Main {
         System.out.println("""
                 
                                                             =============================================================
-                                                                                      LEDGER
+                                                                                       LEDGER
                                                             =============================================================
                                                                              Please select an option:
                 
-                                                                            Press A to Display Ledger (Sorted)
-                                                                            Press D to Display all Deposit Transactions
-                                                                            Press P to Display all Payment Transactions
-                                                                            Press R to Do a Custom Search Report
-                                                                            Press H to Go Back
+                                                                        Press A to Display Ledger (Sorted)
+                                                                        Press D to Display all Deposit Transactions
+                                                                        Press P to Display all Payment Transactions
+                                                                        Press R to Do a Custom Search Report
+                                                                        Press H to Go Back to the Main Menu
                 
                 """);
     }
@@ -64,18 +64,17 @@ public class Main {
         System.out.println("""
                 
                                                             =============================================================
-                                                                                     REPORTS
+                                                                                      REPORTS
                                                             =============================================================
                                                                              Please select an option:
                 
-                                                                            Press 1 to Display Month to Date
-                                                                            Press 2 to Display Previous Month(s)
-                                                                            Press 3 to Display Year to Date
-                                                                            Press 4 to Display Previous Year
-                                                                            Press 5 to Search by Vendor
-                                                                            Press 0 to Go Back
-                                                                            Press H to Go Back to Main Menu
-                
+                                                                        Press 1 to Display Month to Date
+                                                                        Press 2 to Display Previous Month(s)
+                                                                        Press 3 to Display Year to Date
+                                                                        Press 4 to Display Previous Year
+                                                                        Press 5 to Search by Vendor
+                                                                        Press 0 to Go Back
+            
                 
                 """);
     }
@@ -86,12 +85,12 @@ public class Main {
         transactions.sort(Comparator.comparing(Transaction::getTime));
         //todo make a variable
         for (Transaction t : transactions) {
-            System.out.printf("%-15s %-15s %-30s %-30s $%-10s%n", t.getDate(), t.getTime().format(DateTimeFormatter.ofPattern("HH:mm:ss")), t.getDescription(), t.getVendor(), t.getAmount());
+            System.out.println(t);
         }
     }
 
     public static void readFile(String fileName) {
-        try {
+        try     {
             //clearing the transaction ArrayList so it won't multiply when method is called again
             transactions.clear();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
@@ -131,14 +130,16 @@ public class Main {
             input = input.toUpperCase();
             switch (input) {
                 case "D": //Add Deposit
+                    /* run the method getTransactionFromUser then build me a new Transaction object and then store it in variable deposit */
                     Transaction deposit = getTransactionFromUser("Deposit");
+                    //After making the Transaction Object, I want to pass it to addTRansactions, that way it writes it in the csv file.
                     addTransaction(deposit, TRANSACTIONS_FILE);
-                    System.out.println("DEBUG: Success!");
+                    System.out.println("Funds added. Your account is now bulking season ready.");
                     break;
                 case "P": //Make A Payment
                     Transaction payment = getTransactionFromUser("Payment");
                     addTransaction(payment, TRANSACTIONS_FILE);
-                    System.out.println("DEBUG: Success!");
+                    System.out.println("Payment successful. No spotter needed for that financial rep.");
                     break;
                 case "L"://Ledger menu
                     ledgerMenu();
@@ -154,8 +155,6 @@ public class Main {
     public static Transaction getTransactionFromUser(String transactionType) {
         LocalTime localTime;
         LocalDate localDate;
-
-        //used ternary condition to make one if/else condition than doing every single input.
 
         System.out.printf("Enter date of %s (MM/dd/yyyy): \n", transactionType);
         String date = readString();
@@ -176,15 +175,20 @@ public class Main {
         entered a positive amount, it's going to flag
          and will keep looping until user enters a positive amount
         */
+        System.out.println("Amount: ");
         double amount = readValidatedAmount(transactionType);
 
         return new Transaction(localDate, localTime, description, vendorName, amount);
     }
 
     public static void addTransaction(Transaction transaction, String fileName) {
-            File file = new File(fileName);
+        /* created a File object that points to a file so that way,
+        I can inspect it and pass it to the other object class such as the BufferedWriter nad FileWriter */
+        File file = new File(fileName);
         try {
+            //appends
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName, true));
+            //if the file has data, then go to the next line and write there
             if (file.length() > 0) {
                 bufferedWriter.newLine();
             }
@@ -192,17 +196,16 @@ public class Main {
             bufferedWriter.write(transaction.getDate().format(DATE_FORMATTER) + "|" + transaction.getTime().format(TIME_FORMATTER) + "|" + transaction.getDescription() + "|" + transaction.getVendor() + "|" + transaction.getAmount());
             //to update the file since we append new data to transactions.csv
             bufferedWriter.close();
+
+            transactions.add(transaction);
         } catch (IOException e) {
             System.err.println("I/O error. Something broke under pressure—too many reps.");
         }
-            //Re-reads the current file
-            readFile(fileName);
     }
 
     public static double readValidatedAmount(String transactionType) {
         double amount;
         //Made a do while loop to make sure the user will enter the right amount whether it is deposit or payment.
-        System.out.println("Amount: ");
         do {
             amount = readDouble();
 
@@ -275,7 +278,7 @@ public class Main {
         }
 
         if (!found) {
-            System.out.println("No transactions available this month.");
+            System.out.println("No transactions this month—your ledger is lighter than your warm-up set.");
         }
     }
 
@@ -296,45 +299,47 @@ public class Main {
         LocalDate firstOfLastYear = TODAY.minusYears(1).withMonth(1).withDayOfMonth(1);
         //Dec 31st of last year
         LocalDate lastOfLastYear = TODAY.minusYears(1).withMonth(12).withDayOfMonth(31);
-        //todo make a sub menu that has:
-        // (5) Search by inventory
-        displayCustomReportsMenu();
-        String input = readString();
-        input = input.toUpperCase();
 
-        switch (input) {
-            case "1": //Month to Date
-                displayTransactions(TODAY.withDayOfMonth(1), TODAY, null); //today.withDayOfMonth(1) = April 1st
-                break;
-            case "2": //Previous Month
-                displayTransactions(firstOfLastMonth, lastOfLastMonth, null);
-                break;
-            case "3": //Year to Date
-                //todo ask David if we have to follow the fiscal year
-                displayTransactions(JANUARY_FIRST, TODAY, null);
-                break;
-            case "4": //Previous Year
-                displayTransactions(firstOfLastYear, lastOfLastYear, null);
-                break;
-            case "5": //Search by Inventory
-                displaySearchByInventory();
-                break;
-            case "0":
-                //Go back to ledgerMenu()
-                break;
-            default:
-                System.out.println("Wrong key! That rep doesn’t count.");
-        }
+        boolean running = true;
+
+        do {
+            displayCustomReportsMenu();
+            String input = readString();
+            input = input.toUpperCase();
+            switch (input) {
+                case "1": //Month to Date
+                    displayTransactions(TODAY.withDayOfMonth(1), TODAY, null); //today.withDayOfMonth(1) = April 1st
+                    break;
+                case "2": //Previous Month
+                    displayTransactions(firstOfLastMonth, lastOfLastMonth, null);
+                    break;
+                case "3": //Year to Date
+                    displayTransactions(JANUARY_FIRST, TODAY, null);
+                    break;
+                case "4": //Previous Year
+                    displayTransactions(firstOfLastYear, lastOfLastYear, null);
+                    break;
+                case "5": //Search by Inventory
+                    displaySearchByVendor();
+                    break;
+                case "0":
+                    //Go back to ledgerMenu()
+                    running = false;
+                    break;
+                default:
+                    System.out.println("Wrong key! That rep doesn’t count.");
+            }
+        } while (running);
     }
 
-    private static void displaySearchByInventory() {
+    private static void displaySearchByVendor() {
         boolean found = false;
         System.out.println("Search by vendor name: ");
         String vendor = readString().trim().toLowerCase();
         displayHeader();
         for (Transaction t : transactions) {
              if(t.getVendor().toLowerCase().contains(vendor)) {
-                 System.out.println(t);
+                 System.out.println(String.valueOf(t));
                 found = true;
              }
         }
@@ -346,14 +351,14 @@ public class Main {
 
     public static void exit() {
         System.out.print("""
-                   ____   __   __U _____ u\s
-                U | __")u \\ \\ / /\\| ___"|/\s
-                 \\|  _ \\/  \\ V /  |  _|"  \s
-                  | |_) | U_|"|_u | |___  \s
-                  |____/    |_|   |_____| \s
-                 _|| \\\\_.-,//|(_  <<   >> \s
-                (__) (__)\\_) (__)(__) (__)\s
-                
+                                                                               ____   __   __U _____ u\s
+                                                                            U | __")u \\ \\ / /\\| ___"|/\s
+                                                                             \\|  _ \\/  \\ V /  |  _|"  \s
+                                                                              | |_) | U_|"|_u | |___  \s
+                                                                              |____/    |_|   |_____| \s
+                                                                             _|| \\\\_.-,//|(_  <<   >> \s
+                                                                            (__) (__)\\_) (__)(__) (__)\s
+                        
                 """);
     }
 
