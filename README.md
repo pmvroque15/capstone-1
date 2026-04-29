@@ -1,3 +1,3 @@
 # ❚█══█❚ Squats and Science Barbell Financial Ledger ❚█══█❚
-## Welcome to the **Squats and Science Barbell Financial App**
+## Welcome to the **Squats and Science Barbell Financial App** ( ◡̀_◡́)ᕤ
 
