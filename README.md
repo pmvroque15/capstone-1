@@ -148,7 +148,10 @@ Transactions are stored in `transactions.csv` using pipe-delimited (`|`) values:
 - `java.util` — `ArrayList`, `Comparator`, `Scanner`
 ---
 ## Author
-Built with lots of brain cells and mooskels by a developer who take their gains *and* their bookkeeping seriously ᕙ(⇀‸↼‶)ᕗ
+
+Hi, I’m Pat Roque, an aspiring software developer passionate about learning and growing in the tech space. With a background in customer experience and leadership, I bring strong communication and problem-solving skills into my development journey. I’m currently focused on Java, building applications and expanding my knowledge of programming fundamentals.
+
+Built with lots of brain cells and mooskels by a developer who takes both their gains and their bookkeeping seriously ᕙ(⇀‸↼‶)ᕗ
 
 <img alt="utilities/cat-sport.gif" src="utilities/cat-sport.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
 
