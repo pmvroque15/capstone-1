@@ -105,8 +105,8 @@ public class Main {
 
     public static void displayLedger() {
         displayHeader();
-        transactions.sort(Comparator.comparing(Transaction::getDate)
-                .thenComparing(Transaction::getTime));
+        transactions.sort(Comparator.comparing(Transaction::getTime).reversed());
+        transactions.sort(Comparator.comparing(Transaction::getDate).reversed());
         for (Transaction t : transactions) {
             System.out.println(t);
         }
@@ -225,6 +225,13 @@ public class Main {
             System.err.println("I/O error. Something broke under pressure—too many reps.");
         }
     }
+
+//    public static ArrayList<Transaction> customFilters() {
+//        ArrayList<Transaction> result = filter1(transactions);
+//        result = filter2(result);
+//        result = filter3(result);
+//        return result;
+//    }
 
     public static double readValidatedAmount(String transactionType) {
         double amount;
@@ -374,13 +381,12 @@ public class Main {
 
     public static void exit() {
         System.out.print("""
-                                                                               ____   __   __U _____ u\s
-                                                                            U | __")u \\ \\ / /\\| ___"|/\s
-                                                                             \\|  _ \\/  \\ V /  |  _|"  \s
-                                                                              | |_) | U_|"|_u | |___  \s
-                                                                              |____/    |_|   |_____| \s
-                                                                             _|| \\\\_.-,//|(_  <<   >> \s
-                                                                            (__) (__)\\_) (__)(__) (__)\s
+                 ____  _     _    _____ _____ _  _      _____   ____  ____  _      _          \s
+                / ___\\/ \\ /|/ \\ /Y__ __Y__ __Y \\/ \\  /|/  __/  /  _ \\/  _ \\/ \\  /|/ \\  /|     \s
+                |    \\| |_||| | || / \\   / \\ | || |\\ ||| |  _  | | \\|| / \\|| |  ||| |\\ ||     \s
+                \\___ || | ||| \\_/| | |   | | | || | \\||| |_//  | |_/|| \\_/|| |/\\||| | \\||______
+                \\____/\\_/ \\|\\____/ \\_/   \\_/ \\_/\\_/  \\|\\____\\  \\____/\\____/\\_/  \\|\\_/  \\|\\/\\/\\/
+                
                         
                 """);
     }
