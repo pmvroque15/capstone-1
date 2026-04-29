@@ -14,11 +14,10 @@ A console based Java Application for tracking gym-related financial transactions
 - [Biggest Challenge](#biggest-challenge)
 - [Features](#Features)
 - [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
 - [How to Use](#how-to-use)
 - [Data Format](#data-format)
 - [Error Handling](#error-handling)
-- [Technologies Used](#Overview)
+- [Technologies Used](#technologies-used)
 
 ---
 ## Overview
@@ -34,6 +33,7 @@ One of the biggest challenges I faced was keeping the code condensed. My goal wa
 displayTransactions(LocalDate start, LocalDate end, String type)
 ```
 ![patrick-star-spongebob-squarepants.gif](utilities/patrick-star-spongebob-squarepants.gif)
+
 ---
 
 ## Features
@@ -53,11 +53,7 @@ Before jumping on my laptop and writing any code, I took some time to really und
 
 ![flowChart.jpeg](utilities/flowChart.jpeg)
 
-P.S Not the best handwriting, but this is how it all started...
-
-**The Project Tree**
-
-Nothing too complicated here, just a clean setup to keep things organized.
+*P.S Not the best handwriting, but this is how it all started...*
 
 ### Running the App
 
@@ -73,9 +69,9 @@ Nothing too complicated here, just a clean setup to keep things organized.
    ```
    Or run via your IDE (IntelliJ, Eclipse, etc.)
  ---
-## How to use
+## How to use the application:
 
-### Main Menu
+### _Main Menu_
 ![mainMenu.png](utilities/mainMenu.png)
 
 ```
@@ -84,7 +80,7 @@ P  →  Make a Payment
 L  →  Open the Ledger
 X  →  Exit
 ```
-### Ledger Menu
+### _Ledger Menu_
 
 ![ledgerMenu.png](utilities/ledgerMenu.png)
 ```
@@ -94,7 +90,7 @@ P  →  Display Payments Only
 R  →  Open Custom Reports
 H  →  Go Back to Main Menu
 ```
-### Custom Reports Menu
+### _Custom Reports Menu_
 
 ![customReportsMenu.png](utilities/customReportsMenu.png)
 
@@ -120,6 +116,9 @@ When prompted, enter:
 **Deposits must be **positive**. Payments must be **negative**. The app will re-prompt if you enter the wrong sign.**
 
 ---
+
+## Data Format
+
 Transactions are stored in `transactions.csv` using pipe-delimited (`|`) values:
 
 ![transactionsFile.png](utilities/transactionsFile.png)
@@ -157,6 +156,6 @@ Built with lots of brain cells and mooskels by a developer who takes both their 
 
 ---
 
-[^1] Huge shoutout to my instructor David for teaching us Java in a fun way and making this happen. To many more capstones!!
+_Huge shoutout to my instructor David for teaching us Java in a fun way and making this happen. To many more capstones!!_
 
 ![B90BBF4F-C68D-477A-9B1D-85617A19AD2C.jpeg](utilities/B90BBF4F-C68D-477A-9B1D-85617A19AD2C.jpeg)
