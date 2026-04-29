@@ -27,7 +27,7 @@ One of the biggest challenges I faced was keeping the code condensed. My goal wa
 ```
 displayTransactions(LocalDate start, LocalDate end, String type)
 ```
-<img alt="patrick-star-spongebob-squarepants.gif" src="utilities/patrick-star-spongebob-squarepants.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+<img src="utilities/patrick-star-spongebob-squarepants.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
 ---
 ## Features
 | **Adding Deposit And Payment Transactions** 	| Description prompts the user and collects all required transaction data via scanner inputs. Appends a new pipe-delimited transaction row to the file using  FileWriter and BufferedWriter without overwriting existing data. Filters the transaction type by taking in a transactionType String parameter to validate the entered amount. 	|
