@@ -1,3 +1,8 @@
+
+
+![gym.png](utilities/gym.png)
+
+
 # ❚█══█❚ Gainful Ledger: Gym Financial Transaction Application
 
 A console based Java Application for tracking gym-related financial transactions such as deposit and payments with a fully themed ledger, custom rpeorts, and ASCII art UI built for  iron-minded bookkeeper. ( ◡̀_◡́)ᕤ
@@ -6,8 +11,9 @@ A console based Java Application for tracking gym-related financial transactions
 ## Table Of Contents
 
 - [Overview](#Overview)
-- [Feature](#Feature)
-- [Project Structure](#preject-structure)
+- [Biggest Challenge](#biggest-challenge)
+- [Features](#Features)
+- [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
 - [How to Use](#how-to-use)
 - [Data Format](#data-format)
@@ -27,8 +33,7 @@ One of the biggest challenges I faced was keeping the code condensed. My goal wa
 ```
 displayTransactions(LocalDate start, LocalDate end, String type)
 ```
-<img src="utilities/patrick-star-spongebob-squarepants.gif" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
-
+![patrick-star-spongebob-squarepants.gif](utilities/patrick-star-spongebob-squarepants.gif)
 ---
 
 ## Features
@@ -46,7 +51,7 @@ displayTransactions(LocalDate start, LocalDate end, String type)
 
 Before jumping on my laptop and writing any code, I took some time to really understand the flow of the project. As a visual learner, it helps me to map everything out first — so I grabbed a piece of paper and sketched out some flowcharts the old fashioned way!
 
-<img alt="IMG_3947.jpeg" src="utilities/IMG_3947.jpeg" style="display: block; margin-left: auto; margin-right: auto; width: 50%; transform: rotate(-90deg);"/>
+![flowChart.jpeg](utilities/flowChart.jpeg)
 
 P.S Not the best handwriting, but this is how it all started...
 
@@ -71,6 +76,8 @@ Nothing too complicated here, just a clean setup to keep things organized.
 ## How to use
 
 ### Main Menu
+![mainMenu.png](utilities/mainMenu.png)
+
 ```
 D  →  Add a Deposit
 P  →  Make a Payment
@@ -78,6 +85,8 @@ L  →  Open the Ledger
 X  →  Exit
 ```
 ### Ledger Menu
+
+![ledgerMenu.png](utilities/ledgerMenu.png)
 ```
 A  →  Display All Transactions (sorted newest first)
 D  →  Display Deposits Only
@@ -86,6 +95,9 @@ R  →  Open Custom Reports
 H  →  Go Back to Main Menu
 ```
 ### Custom Reports Menu
+
+![customReportsMenu.png](utilities/customReportsMenu.png)
+
 ```
 1  →  Month to Date
 2  →  Previous Month
@@ -110,11 +122,7 @@ When prompted, enter:
 ---
 Transactions are stored in `transactions.csv` using pipe-delimited (`|`) values:
 
-```
-date|time|description|vendor|amount
-04/29/2026|14:35:00|Monthly Membership|Iron Planet Gym|59.99
-04/15/2026|09:10:00|Protein Supplements|GNC|−45.00
-```
+![transactionsFile.png](utilities/transactionsFile.png)
 
 ***The file is read on startup and appended to on every new transaction.***
 
@@ -146,6 +154,6 @@ Built with lots of brain cells and mooskels by a developer who take their gains 
 
 ---
 
-[^1]: Huge shoutout to my instructor David for teaching us Java in a fun way and making this happen. To many more capstones!!
+[^1] Huge shoutout to my instructor David for teaching us Java in a fun way and making this happen. To many more capstones!!
 
-<img alt="38FF2592-6546-454F-AAA8-4021FC18883E_4_5005_c.jpeg" src="utilities/B90BBF4F-C68D-477A-9B1D-85617A19AD2C.jpeg" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+![B90BBF4F-C68D-477A-9B1D-85617A19AD2C.jpeg](utilities/B90BBF4F-C68D-477A-9B1D-85617A19AD2C.jpeg)
