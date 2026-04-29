@@ -37,7 +37,7 @@ A console based Java Application for tracking gym-related financial transactions
 
 Before jumping on my laptop and writing any code, I took some time to really understand the flow of the project. As a visual learner, it helps me to map everything out first — so I grabbed a piece of paper and sketched out some flowcharts the old fashioned way!
 
-<img alt="IMG_3947.jpeg" height="500px" width="400px" src="src/main/resources/IMG_3947.jpeg" style="display: block; margin-left: auto; margin-right: auto; width: 50%; transform: rotate(-90deg);"/>
+<img alt="IMG_3947.jpeg" src="src/main/resources/IMG_3947.jpeg" style="display: block; margin-left: auto; margin-right: auto; width: 50%; transform: rotate(-90deg);"/>
 
 P.S Not the best handwriting, but this is how it all started...
 
