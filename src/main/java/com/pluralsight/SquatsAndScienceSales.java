@@ -296,9 +296,6 @@ public class SquatsAndScienceSales {
                 case "R":
                     customReportsMenu();
                     break;
-                case "S":
-                    customFilters();
-                    break;
                 case "H":
                     isRunning = false; //back to Main Menu
                     break;
@@ -371,6 +368,9 @@ public class SquatsAndScienceSales {
                     break;
                 case "5": //Search by Inventory
                     displaySearchByVendor();
+                    break;
+                case "6":
+                    customFilters();
                     break;
                 case "0":
                     //Go back to ledgerMenu()
