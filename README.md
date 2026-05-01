@@ -12,12 +12,11 @@ A console based Java Application for tracking gym-related financial transactions
 
 - [Overview](#Overview)
 - [Biggest Challenge](#biggest-challenge)
+- [What I Would Improve Next](#What-I-Would-Improve-Next)
 - [Features](#Features)
 - [Project Structure](#project-structure)
 - [How to Use](#how-to-use)
 - [Data Format](#data-format)
-- [Error Handling](#error-handling)
-- [Technologies Used](#technologies-used)
 
 ---
 ## Overview
@@ -36,6 +35,18 @@ displayTransactions(LocalDate start, LocalDate end, String type)
 
 ---
 
+## What I Would Improve Next
+
+Completing this capstone project has been something I’m genuinely proud of, as it challenged me to apply many of the concepts I’ve learned.
+
+However, I believe the project could be made more concise and better organized. After working through it, I’ve realized the importance of planning ahead before coding.
+
+Moving forward, I want to improve my development process by incorporating tools such as flowcharts and pseudocode to better structure my logic before implementation.
+
+![Cat Working GIF by Looney Tunes.gif](utilities/Cat%20Working%20GIF%20by%20Looney%20Tunes.gif)
+
+---
+
 ## Features
 | **Adding Deposit And Payment Transactions** 	| Description prompts the user and collects all required transaction data via scanner inputs. Appends a new pipe-delimited transaction row to the file using  FileWriter and BufferedWriter without overwriting existing data. Filters the transaction type by taking in a transactionType String parameter to validate the entered amount. 	|
 |---------------------------------------------	|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
@@ -49,7 +60,7 @@ displayTransactions(LocalDate start, LocalDate end, String type)
 ---
 ## Project Structure
 
-Before jumping on my laptop and writing any code, I took some time to really understand the flow of the project. As a visual learner, it helps me to map everything out first — so I grabbed a piece of paper and sketched out some flowcharts the old fashioned way!
+Before jumping on my laptop and writing any code, I took some time to really understand the flow of the project. As a visual learner, it helps me to map everything out first, so I grabbed a piece of paper and sketched out some flowcharts the old fashioned way!
 
 ![flowChart.jpeg](utilities/flowChart.jpeg)
 
@@ -103,18 +114,6 @@ H  →  Go Back to Main Menu
 0  →  Go Back
 ```
 
-When prompted, enter:
-
-| Field       | Format         | Example              |
-|-------------|----------------|----------------------|
-| Date        | `MM/dd/yyyy`   | `04/29/2026`         |
-| Time        | `HH:mm:ss`     | `14:35:00`           |
-| Description | Free text      | `Monthly Membership` |
-| Vendor      | Free text      | `Iron Planet Gym`    |
-| Amount      | Decimal number | `59.99` or `-59.99`  |
-
-**Deposits must be **positive**. Payments must be **negative**. The app will re-prompt if you enter the wrong sign.**
-
 ---
 
 ## Data Format
@@ -126,26 +125,7 @@ Transactions are stored in `transactions.csv` using pipe-delimited (`|`) values:
 ***The file is read on startup and appended to on every new transaction.***
 
 ---
-## Error Handling
 
-| Scenario                        | Response                                                    |
-|---------------------------------|-------------------------------------------------------------|
-| File not found                  | `"File not found. It ghosted harder than your gym motivation."` |
-| I/O error                       | `"I/O error. Something broke under pressure—too many reps."` |
-| Wrong deposit amount (negative) | Re-prompts: `"Invalid input! Deposit must be positive."`   |
-| Wrong payment amount (positive) | Re-prompts: `"Invalid input! Payments must be negative."`  |
-| No matching transactions        | `"No transactions this month—your ledger is lighter than your warm-up set."` |
-| Invalid menu input              | `"Wrong key! That rep doesn't count."`                     |
- 
-
----
-## Technologies Used
-
-- **Java 17+**
-- `java.time` — `LocalDate`, `LocalTime`, `DateTimeFormatter`
-- `java.io` — `BufferedReader`, `BufferedWriter`, `FileReader`, `FileWriter`
-- `java.util` — `ArrayList`, `Comparator`, `Scanner`
----
 ## Author
 
 Hi, I’m Pat Roque, an aspiring software developer passionate about learning and growing in the tech space. With a background in customer experience and leadership, I bring strong communication and problem-solving skills into my development journey. I’m currently focused on Java, building applications and expanding my knowledge of programming fundamentals.
