@@ -136,7 +136,7 @@ public class SquatsAndScienceSales {
     public static void displayLedger() {
         displayHeader();
         transactions.sort(Comparator.comparing(Transaction::getTime).reversed());
-        transactions.sort(Comparator.comparing(Transaction::getDate).reversed());
+//        transactions.sort(Comparator.comparing(Transaction::getDate).reversed());
         for (Transaction t : transactions) {
             System.out.println(t);
         }
@@ -199,8 +199,8 @@ public class SquatsAndScienceSales {
 
     public static void addTransaction(Transaction transaction, String fileName) {
         File file = new File(fileName);
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName, true))) {
-
+        try  {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName, true));
             //if the file has data, then go to the next line and write there
             if (file.length() > 0) {
                 bufferedWriter.newLine();
@@ -270,7 +270,7 @@ public class SquatsAndScienceSales {
             if ("Deposit".equalsIgnoreCase(transactionType) && amount < 0) {
                 System.err.println("Invalid input! Deposit must be positive.");
             } else if ("Payment".equalsIgnoreCase(transactionType) && amount > 0) {
-                System.err.println("Invalid input! Payments must be negative.");
+                System.err.println("Invalid input! Payment must be negative.");
             }
         } while (("Deposit".equalsIgnoreCase(transactionType) && amount <= 0) || ("Payment".equalsIgnoreCase(transactionType) && amount >= 0));
 
@@ -317,7 +317,6 @@ public class SquatsAndScienceSales {
             boolean matchesDate = (start == null || !transactionDate.isBefore(start)) && (end == null || !transactionDate.isAfter(end));
             //this way, it will be more clear whether it's a deposit or payment transaction, otherwise it will show all transactions
             boolean matchesType = false;
-            //made an if/else condition because assigning it was too "strict" to filter the arguments for determining the transactions
             if (type == null) {
                 matchesType = true;
             } else if ("Deposit".equalsIgnoreCase(type)) {
