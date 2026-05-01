@@ -65,7 +65,7 @@ Before jumping on my laptop and writing any code, I took some time to really und
 3. Compile and run `Main.java`:
    ```bash
    javac src/main/java/com/pluralsight/Main.java
-   java com.pluralsight.Main
+   java com.pluralsight.SquatsAndScienceSales
    ```
    Or run via your IDE (IntelliJ, Eclipse, etc.)
  ---
